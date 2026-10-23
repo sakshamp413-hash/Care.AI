@@ -12,6 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #f6f1ea; --surface: #ffffff; --surface-2: #fbf8f4; --ink: #1c1917; --muted: #78716c;
@@ -166,6 +167,7 @@
   .status .mock { background: var(--ink); color: #fff; font-weight: 700; padding: 1px 8px; border-radius: 6px; font-size: 11px; letter-spacing: .5px; }
   .sr { position: absolute; left: -9999px; }
 </style>
+<link rel="stylesheet" href="theme.css">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -276,6 +278,8 @@
         <div class="eyebrow">अगला कदम</div>
         <div id="stepText">अपने फोन की स्क्रीन की फोटो (स्क्रीनशॉट) भेजिए। हम बताएँगे कहाँ दबाना है।</div>
       </div>
+
+      <div id="bb-orb"></div>
 
       <div class="stack">
         <button class="btn primary xl" id="shotBtn"><svg class="i"><use href="#i-camera"/></svg>स्क्रीन की फोटो भेजिए</button>
@@ -655,5 +659,6 @@
   if (settings.childPhone || settings.parentName) show("home"); else openSetup();
 })();
 </script>
+<script src="orb.js" defer></script>
 </body>
 </html>

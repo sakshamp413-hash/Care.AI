@@ -1,7 +1,7 @@
 // Minimal service worker: caches the app shell so it opens like an app.
 // API calls (/api/*) always go to the network; screenshots are never cached.
-const CACHE = "betabol-v2";
-const SHELL = ["./", "index.html", "manifest.webmanifest", "icon-192.png", "icon-512.png"];
+const CACHE = "betabol-v3";
+const SHELL = ["./", "index.html", "manifest.webmanifest", "icon-192.png", "icon-512.png", "theme.css", "orb.js"];
 
 self.addEventListener("install", (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting()));
