@@ -25,7 +25,7 @@ def guide(filename="screen.png", goal="बेटे को WhatsApp पर फ�
 def test_health():
     h = client.get("/api/health").json()
     assert h["status"] == "ok" and h["mode"] == "mock"
-    assert h["model"] == "gemma-4-26b-a4b-it" and h["skills"] == 7
+    assert h["model"] == "gemma-4-26b-a4b-it" and h["skills"] == 8
 
 
 def test_skills_endpoint():

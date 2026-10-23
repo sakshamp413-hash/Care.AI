@@ -48,6 +48,7 @@ If **either** layer flags the screen, the app warns. High severity beats caution
 | [`remote-app-trap`](skills/remote-app-trap/SKILL.md) | high | AnyDesk, TeamViewer, QuickSupport, and screen-share prompts |
 | [`digital-arrest-trap`](skills/digital-arrest-trap/SKILL.md) | high | Fake CBI, police, or customs video calls |
 | [`fake-caller-trap`](skills/fake-caller-trap/SKILL.md) | high | A caller asking for an OTP, PIN or card details (said in voice chat) |
+| [`lottery-prize-trap`](skills/lottery-prize-trap/SKILL.md) | high | Fake lottery / KBC / lucky-draw prizes that ask for a "fee" first |
 | [`otp-share-trap`](skills/otp-share-trap/SKILL.md) | caution | An OTP visible on screen |
 | [`phone-guide-hindi`](skills/phone-guide-hindi/SKILL.md) | guide | The guidance style: one action per step, at most 20 words, respectful Hindi, never asks for a PIN or OTP |
 

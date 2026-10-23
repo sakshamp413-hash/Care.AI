@@ -28,12 +28,13 @@ def _get_client():
         from google.genai import types
 
         _client_key = _api_key()
-        _client = genai.Client(api_key=_client_key, http_options=types.HttpOptions(timeout=60_000))
+        _client = genai.Client(api_key=_client_key, http_options=types.HttpOptions(timeout=100_000))
     return _client
 
 
 def _generate(contents, config, attempts: int = 3):
     """generate_content with retries: the Gemini API intermittently returns 500/503/429."""
+    import httpx
     from google.genai import errors
 
     for i in range(attempts):
@@ -44,6 +45,9 @@ def _generate(contents, config, attempts: int = 3):
             if not retryable or i == attempts - 1:
                 raise
             time.sleep(0.8 * (2 ** i))
+        except httpx.TimeoutException:
+            if i >= 1:  # one retry only: each attempt can already take ~100s
+                raise
 
 
 def _why_empty(resp) -> str:
