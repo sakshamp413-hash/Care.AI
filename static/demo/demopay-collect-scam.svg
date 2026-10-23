@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="780" viewBox="0 0 360 780" font-family="Roboto, Noto Sans Devanagari, Nirmala UI, Arial, sans-serif">
+<rect width="360" height="780" fill="#f4f6fb"/><rect width="360" height="28" fill="#000" opacity=".85"/><text x="14" y="19" fill="#fff" font-size="13">10:42</text><text x="296" y="19" fill="#fff" font-size="13">4G 78%</text>
+<rect y="28" width="360" height="60" fill="#3b2bb5"/><text x="16" y="66" font-size="20" font-weight="700" fill="#fff">DemoPay</text><text x="226" y="66" font-size="11" fill="#d0c8ff">FICTIONAL DEMO APP</text>
+<rect x="16" y="108" width="328" height="380" rx="16" fill="#fff" stroke="#e0e3ef"/>
+<text x="180" y="142" text-anchor="middle" font-size="14" fill="#666">Collect request from</text>
+<circle cx="180" cy="186" r="28" fill="#ffd43b"/><text x="180" y="196" text-anchor="middle" font-size="26" fill="#7a5a00">★</text>
+<text x="180" y="240" text-anchor="middle" font-size="17" font-weight="700" fill="#111">Lucky Draw Winner Dept.</text>
+<text x="180" y="260" text-anchor="middle" font-size="12" fill="#888">luckydraw.prize@demopay</text>
+<text x="180" y="312" text-anchor="middle" font-size="40" font-weight="700" fill="#111">₹5,000</text>
+<rect x="30" y="332" width="300" height="66" rx="10" fill="#ebfbee"/>
+<text x="180" y="358" text-anchor="middle" font-size="14" fill="#2b8a3e" font-weight="700">Congratulations! You have won cashback</text>
+<text x="180" y="382" text-anchor="middle" font-size="13" fill="#2b8a3e">Enter UPI PIN to receive money in your account</text>
+<text x="180" y="430" text-anchor="middle" font-size="12" fill="#888">Request expires in 04:59</text>
+<rect x="36" y="520" width="136" height="54" rx="27" fill="#fff" stroke="#adb5bd"/><text x="104" y="553" text-anchor="middle" font-size="16" fill="#495057">Decline</text>
+<rect x="188" y="520" width="136" height="54" rx="27" fill="#3b2bb5"/><text x="256" y="553" text-anchor="middle" font-size="16" fill="#fff" font-weight="700">Pay ₹5,000</text>
+<text x="180" y="620" text-anchor="middle" font-size="12" fill="#888">Paying from Savings A/c XX4821</text>
+<rect x="20" y="680" width="320" height="56" rx="10" fill="#fff3bf"/>
+<text x="180" y="704" text-anchor="middle" font-size="11" fill="#5c4400">FICTIONAL SCAM SCREEN FOR HACKATHON DEMO</text>
+<text x="180" y="724" text-anchor="middle" font-size="11" fill="#5c4400">यह स्क्रीन काल्पनिक है — DemoPay असली ऐप नहीं है</text>
+<text x="180" y="772" text-anchor="middle" font-size="9" fill="#888">DEMO SCREENSHOT · काल्पनिक · Beta Bol</text></svg>

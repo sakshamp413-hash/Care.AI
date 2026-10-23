@@ -1,0 +1,659 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>बेटा बोल</title>
+<meta name="description" content="बुज़ुर्गों के लिए फोन गाइड और Scam Kavach — उनके अपने बच्चे की आवाज़ में।">
+<meta name="theme-color" content="#ea580c">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f6f1ea; --surface: #ffffff; --surface-2: #fbf8f4; --ink: #1c1917; --muted: #78716c;
+    --line: #ece4da; --brand: #ea580c; --brand-dark: #c2410c; --brand-soft: #fff1e6;
+    --green: #16a34a; --green-soft: #e8f7ee; --blue: #2563eb; --blue-soft: #e8efff;
+    --purple: #7c3aed; --purple-soft: #f1ebff; --red: #dc2626; --red-soft: #fdecec;
+    --warn-bg: #fff7d6; --warn-ink: #713f12; --warn-line: #f5d565;
+    --radius: 22px; --shadow: 0 1px 2px rgba(28,25,23,.06), 0 8px 24px rgba(28,25,23,.06);
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin: 0; background: var(--bg); color: var(--ink); }
+  body { font-family: "Mukta", "Noto Sans Devanagari", "Nirmala UI", system-ui, sans-serif; font-size: 20px; line-height: 1.45; }
+  svg.i { width: 1em; height: 1em; flex: none; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  button { font: inherit; color: inherit; }
+
+  /* App shell — full screen on phones, a phone-sized card on a laptop/projector */
+  .app { max-width: 480px; margin: 0 auto; min-height: 100vh; background: var(--surface-2); display: flex; flex-direction: column; }
+  @media (min-width: 640px) {
+    body { padding: 28px 16px; }
+    .app { min-height: calc(100vh - 56px); border-radius: 32px; box-shadow: 0 30px 80px rgba(28,25,23,.18); overflow: hidden; border: 1px solid var(--line); }
+  }
+
+  .topbar { display: flex; align-items: center; justify-content: space-between; padding: 16px 18px 10px; }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand img { width: 44px; height: 44px; border-radius: 13px; }
+  .brand b { display: block; font-size: 25px; font-weight: 800; line-height: 1.1; color: var(--ink); }
+  .brand span { font-size: 14px; color: var(--muted); }
+  .icon-btn { width: 48px; height: 48px; border-radius: 15px; border: 1px solid var(--line); background: var(--surface); display: grid; place-items: center; font-size: 22px; color: var(--muted); cursor: pointer; }
+
+  main { flex: 1; padding: 6px 18px 24px; }
+  .screen { display: none; animation: in .25s ease-out; }
+  .screen.active { display: block; }
+  @keyframes in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px; }
+  .eyebrow { font-size: 14px; font-weight: 700; letter-spacing: .4px; color: var(--muted); text-transform: uppercase; }
+  h2 { font-size: 28px; line-height: 1.2; margin: 0; font-weight: 800; }
+  .sub { color: var(--muted); font-size: 18px; margin: 4px 0 0; }
+
+  /* Buttons */
+  .btn { display: flex; align-items: center; justify-content: center; gap: 12px; width: 100%; min-height: 64px; padding: 12px 20px;
+         border: 0; border-radius: 18px; font-size: 22px; font-weight: 700; cursor: pointer; transition: transform .08s, filter .15s; }
+  .btn:active { transform: scale(.98); }
+  .btn .i { font-size: 26px; }
+  .btn.primary { background: var(--brand); color: #fff; box-shadow: 0 6px 16px rgba(234,88,12,.28); }
+  .btn.primary:hover { filter: brightness(1.05); }
+  .btn.secondary { background: var(--surface); color: var(--ink); border: 1px solid var(--line); }
+  .btn.green { background: var(--green); color: #fff; }
+  .btn.wa { background: #25d366; color: #073b1c; }
+  .btn.xl { min-height: 76px; font-size: 24px; }
+  .stack > * + * { margin-top: 12px; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .row .btn { font-size: 19px; min-height: 58px; }
+
+  /* Home */
+  .hero { display: flex; flex-direction: column; gap: 14px; }
+  .chip { display: inline-flex; align-items: center; gap: 8px; align-self: flex-start; padding: 6px 12px; border-radius: 999px; font-size: 15px; font-weight: 600; }
+  .chip.safe { background: var(--green-soft); color: #166534; }
+  .chip.safe .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 4px rgba(22,163,74,.18); }
+  .section-title { margin: 22px 2px 10px; font-size: 17px; color: var(--muted); font-weight: 600; }
+  .tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .tile { text-align: left; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px; min-height: 148px;
+          display: flex; flex-direction: column; gap: 10px; cursor: pointer; box-shadow: var(--shadow); transition: transform .1s, border-color .15s; }
+  .tile:hover { border-color: #e0d3c3; }
+  .tile:active { transform: scale(.98); }
+  .tile .ic { width: 52px; height: 52px; border-radius: 16px; display: grid; place-items: center; font-size: 28px; }
+  .tile b { font-size: 21px; line-height: 1.2; }
+  .tile small { font-size: 15px; color: var(--muted); line-height: 1.3; }
+  .ic.green { background: var(--green-soft); color: var(--green); }
+  .ic.blue { background: var(--blue-soft); color: var(--blue); }
+  .ic.purple { background: var(--purple-soft); color: var(--purple); }
+  .ic.red { background: var(--red-soft); color: var(--red); }
+  .or { display: flex; align-items: center; gap: 12px; color: var(--muted); font-size: 15px; margin: 18px 0 12px; }
+  .or::before, .or::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+  .mic { background: var(--surface); border: 2px solid var(--brand); color: var(--brand-dark); }
+  .mic.listening { background: var(--brand); color: #fff; animation: breathe 1.2s ease-in-out infinite; }
+  @keyframes breathe { 50% { box-shadow: 0 0 0 10px rgba(234,88,12,.15); } }
+  .hint { color: var(--muted); font-size: 16px; text-align: center; min-height: 22px; margin: 8px 0 0; }
+
+  /* Setup form */
+  label.f { display: block; font-weight: 700; font-size: 17px; margin: 16px 0 6px; }
+  input[type=text], input[type=tel] { width: 100%; font: inherit; padding: 13px 16px; border-radius: 14px; border: 1.5px solid var(--line); background: var(--surface-2); outline: none; }
+  input:focus { border-color: var(--brand); background: #fff; }
+  .seg { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .seg label { margin: 0; }
+  .seg input { position: absolute; opacity: 0; }
+  .seg span { display: block; text-align: center; padding: 11px; border: 1.5px solid var(--line); border-radius: 14px; background: var(--surface-2); cursor: pointer; font-weight: 700; }
+  .seg input:checked + span { border-color: var(--brand); background: var(--brand-soft); color: var(--brand-dark); }
+  .note { display: flex; gap: 10px; font-size: 15px; color: var(--muted); background: var(--surface-2); border-radius: 14px; padding: 10px 12px; margin-top: 16px; }
+
+  /* Guide */
+  .guide-top { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .back { width: 46px; height: 46px; border-radius: 14px; border: 1px solid var(--line); background: var(--surface); display: grid; place-items: center; font-size: 22px; cursor: pointer; flex: none; }
+  .goal { flex: 1; min-width: 0; }
+  .goal .eyebrow { font-size: 12px; }
+  .goal div { font-weight: 700; font-size: 18px; line-height: 1.25; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+  .stepnum { flex: none; background: var(--brand-soft); color: var(--brand-dark); font-weight: 700; font-size: 15px; padding: 6px 12px; border-radius: 999px; }
+  .caution { display: none; align-items: flex-start; gap: 10px; background: var(--warn-bg); color: var(--warn-ink); border: 1px solid var(--warn-line); border-radius: 16px; padding: 12px 14px; margin-bottom: 12px; font-weight: 600; font-size: 18px; }
+  .caution.show { display: flex; }
+  .caution .i { font-size: 24px; margin-top: 2px; }
+  .stage { position: relative; display: flex; justify-content: center; align-items: center; background: #1f1b18; border-radius: 26px; padding: 10px; min-height: 220px; }
+  canvas#view { max-width: 100%; border-radius: 16px; display: none; }
+  .placeholder { display: flex; flex-direction: column; align-items: center; gap: 8px; color: #a8a29e; text-align: center; padding: 30px 20px; font-size: 17px; }
+  .placeholder .i { font-size: 46px; color: #78716c; }
+  .loader { display: none; position: absolute; inset: 0; background: rgba(31,27,24,.6); border-radius: 26px; color: #fff; flex-direction: column; align-items: center; justify-content: center; gap: 12px; font-weight: 600; }
+  .loader.show { display: flex; }
+  .spinner { width: 42px; height: 42px; border-radius: 50%; border: 4px solid rgba(255,255,255,.25); border-top-color: #fff; animation: spin .8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .step { margin: 14px 0; background: var(--surface); border: 1px solid var(--line); border-left: 6px solid var(--brand); border-radius: 18px; padding: 14px 16px; box-shadow: var(--shadow); }
+  .step .eyebrow { color: var(--brand-dark); font-size: 13px; }
+  #stepText { font-size: 26px; font-weight: 700; line-height: 1.3; margin-top: 2px; }
+  .step.empty { border-left-color: var(--line); }
+  .step.empty #stepText { font-size: 20px; font-weight: 500; color: var(--muted); }
+  #askChild { display: none; }
+  #askChild.show { display: flex; }
+  details.demo { margin-top: 22px; border: 1px dashed #d6cabb; border-radius: 16px; padding: 10px 14px; font-size: 15px; color: var(--muted); }
+  details.demo summary { cursor: pointer; font-weight: 600; }
+  .demo-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .demo-grid button { font-size: 14px; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); cursor: pointer; }
+  .demo-grid button.scam { border-color: #f3b4b4; color: var(--red); background: var(--red-soft); }
+
+  /* Done */
+  .done-wrap { text-align: center; padding-top: 28px; }
+  .badge { width: 140px; height: 140px; margin: 0 auto 18px; border-radius: 50%; background: var(--green-soft); display: grid; place-items: center; animation: pop .55s cubic-bezier(.2,1.6,.4,1); }
+  .badge .inner { width: 100px; height: 100px; border-radius: 50%; background: var(--green); color: #fff; display: grid; place-items: center; font-size: 56px; }
+  .badge .i { stroke-width: 3; }
+  @keyframes pop { from { transform: scale(.3); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .done-wrap h2 { font-size: 38px; color: #166534; }
+  .done-wrap p { color: var(--muted); font-size: 20px; margin: 8px 0 28px; }
+
+  /* Scam Kavach full-screen alert */
+  #scam { display: none; position: fixed; inset: 0; z-index: 50; background: #b91c1c; color: #fff; overflow-y: auto;
+          padding: 28px 18px calc(28px + env(safe-area-inset-bottom)); animation: flash .5s ease-in-out 3; }
+  #scam.show { display: block; }
+  @keyframes flash { 50% { background: #7f1d1d; } }
+  #scam .inner { max-width: 460px; margin: 0 auto; text-align: center; }
+  .siren { width: 108px; height: 108px; margin: 6px auto 12px; border-radius: 50%; background: #fff; color: #b91c1c; display: grid; place-items: center; font-size: 60px; box-shadow: 0 0 0 12px rgba(255,255,255,.18); animation: ring 1.2s ease-out infinite; }
+  @keyframes ring { 0% { box-shadow: 0 0 0 0 rgba(255,255,255,.45); } 100% { box-shadow: 0 0 0 26px rgba(255,255,255,0); } }
+  #scam h2 { font-size: 52px; margin: 4px 0 14px; }
+  #scam .warn { background: #fff; color: #7f1d1d; border-radius: 20px; padding: 18px; font-size: 25px; font-weight: 700; line-height: 1.35; text-align: left; }
+  #scam .reason { font-size: 18px; margin: 14px 4px 20px; opacity: .92; text-align: left; }
+  #scam .btn.light { background: #fff; color: #b91c1c; }
+  #scam .btn.outline { background: transparent; color: #fff; border: 1.5px solid rgba(255,255,255,.55); font-size: 19px; min-height: 56px; }
+  #scam .tag { display: inline-flex; gap: 6px; align-items: center; font-size: 14px; background: rgba(0,0,0,.2); padding: 6px 12px; border-radius: 999px; margin-top: 18px; }
+
+  /* Status bar */
+  .status { position: sticky; bottom: 0; display: flex; flex-wrap: wrap; gap: 6px 8px; align-items: center; justify-content: center;
+            padding: 10px 14px calc(10px + env(safe-area-inset-bottom)); background: rgba(251,248,244,.92); backdrop-filter: blur(8px); border-top: 1px solid var(--line); font-size: 13px; color: var(--muted); }
+  .status .s { display: inline-flex; align-items: center; gap: 5px; }
+  .status .s b { color: var(--ink); font-weight: 700; }
+  .status .sep { width: 3px; height: 3px; border-radius: 50%; background: #c8bcae; }
+  .status .mock { background: var(--ink); color: #fff; font-weight: 700; padding: 1px 8px; border-radius: 6px; font-size: 11px; letter-spacing: .5px; }
+  .sr { position: absolute; left: -9999px; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></symbol>
+  <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></symbol>
+  <symbol id="i-video" viewBox="0 0 24 24"><path d="m23 7-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></symbol>
+  <symbol id="i-rupee" viewBox="0 0 24 24"><path d="M6 3h12M6 8h12M6 13l8.5 8M6 13h3a5 5 0 0 0 0-10"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></symbol>
+  <symbol id="i-shield-alert" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M12 8v4M12 16h.01"/></symbol>
+  <symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M19 10v1a7 7 0 0 1-14 0v-1M12 18v4M8 22h8"/></symbol>
+  <symbol id="i-camera" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></symbol>
+  <symbol id="i-volume" viewBox="0 0 24 24"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/></symbol>
+  <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3M12 17h.01"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 21l2.1-5.6A8.4 8.4 0 1 1 21 11.5z"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></symbol>
+  <symbol id="i-hand" viewBox="0 0 24 24"><path d="M18 11V6a2 2 0 0 0-4 0M14 10V4a2 2 0 0 0-4 0v2M10 10.5V6a2 2 0 0 0-4 0v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.9-6-2.4l-3.6-3.6a2 2 0 0 1 2.8-2.8L7 15"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+  <symbol id="i-cpu" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3"/></symbol>
+</svg>
+
+<div class="app">
+  <header class="topbar">
+    <div class="brand">
+      <img src="icon-192.png" alt="">
+      <div><b>बेटा बोल</b><span>फोन गाइड · Scam Kavach</span></div>
+    </div>
+    <button class="icon-btn" id="settingsBtn" aria-label="परिवार की सेटिंग"><svg class="i"><use href="#i-gear"/></svg></button>
+  </header>
+
+  <main>
+    <!-- SETUP -->
+    <section class="screen" id="setup">
+      <div class="card">
+        <div class="eyebrow">एक बार की सेटिंग</div>
+        <h2 style="margin-top:4px">परिवार की जानकारी</h2>
+        <p class="sub">यह बच्चे एक बार भर दें।</p>
+        <label class="f" for="parentName">माता / पिता का नाम</label>
+        <input type="text" id="parentName" placeholder="जैसे: शांति देवी" autocomplete="off">
+        <label class="f">कौन मदद करेगा?</label>
+        <div class="seg">
+          <label><input type="radio" name="rel" value="बेटा" checked><span>बेटा</span></label>
+          <label><input type="radio" name="rel" value="बेटी"><span>बेटी</span></label>
+        </div>
+        <label class="f" for="childName">बच्चे का नाम</label>
+        <input type="text" id="childName" placeholder="जैसे: राहुल" autocomplete="off">
+        <label class="f" for="childPhone">बच्चे का WhatsApp नंबर</label>
+        <input type="tel" id="childPhone" placeholder="98765 43210" inputmode="tel" autocomplete="off">
+        <div class="note"><svg class="i" style="font-size:20px;margin-top:2px"><use href="#i-lock"/></svg>
+          <span>जानकारी सिर्फ इसी फोन में रहती है। फोटो कहीं सेव नहीं होतीं।</span></div>
+        <button class="btn primary xl" id="saveSetup" style="margin-top:20px"><svg class="i"><use href="#i-check"/></svg>सेव करें</button>
+      </div>
+    </section>
+
+    <!-- HOME -->
+    <section class="screen" id="home">
+      <div class="card hero">
+        <span class="chip safe"><span class="dot"></span>Scam Kavach चालू है</span>
+        <div>
+          <h2 id="hello">नमस्ते!</h2>
+          <p class="sub">आज फोन में क्या करना है?</p>
+        </div>
+      </div>
+
+      <div class="section-title">एक काम चुनिए</div>
+      <div class="tiles">
+        <button class="tile" data-goal="बेटे को WhatsApp पर फोटो भेजनी है">
+          <span class="ic green"><svg class="i"><use href="#i-image"/></svg></span>
+          <b>फोटो भेजनी है</b><small data-sub="WhatsApp पर {c} को">WhatsApp पर बेटे को</small>
+        </button>
+        <button class="tile" data-goal="बेटे को वीडियो कॉल करना है">
+          <span class="ic blue"><svg class="i"><use href="#i-video"/></svg></span>
+          <b>वीडियो कॉल</b><small data-sub="{c} से बात करनी है">बेटे से बात करनी है</small>
+        </button>
+        <button class="tile" data-goal="UPI से पैसे भेजने हैं">
+          <span class="ic purple"><svg class="i"><use href="#i-rupee"/></svg></span>
+          <b>पैसे भेजने हैं</b><small>UPI से, सुरक्षित तरीके से</small>
+        </button>
+        <button class="tile" data-goal="फोन में कुछ अजीब आया है, देखना है कि सुरक्षित है या नहीं">
+          <span class="ic red"><svg class="i"><use href="#i-shield-alert"/></svg></span>
+          <b>कुछ अजीब आया है</b><small>धोखा तो नहीं? जाँचिए</small>
+        </button>
+      </div>
+
+      <div class="or">या</div>
+      <button class="btn mic xl" id="micBtn"><svg class="i"><use href="#i-mic"/></svg>बोलकर बताइए</button>
+      <p class="hint" id="micHint"></p>
+    </section>
+
+    <!-- GUIDE -->
+    <section class="screen" id="guide">
+      <div class="guide-top">
+        <button class="back" id="homeBtn" aria-label="वापस"><svg class="i"><use href="#i-back"/></svg></button>
+        <div class="goal"><div class="eyebrow">आपका काम</div><div id="goalText"></div></div>
+        <span class="stepnum" id="stepNum">कदम 1</span>
+      </div>
+
+      <div class="caution" id="caution"><svg class="i"><use href="#i-shield-alert"/></svg><span id="cautionText"></span></div>
+
+      <div class="stage">
+        <div class="placeholder" id="placeholder"><svg class="i"><use href="#i-camera"/></svg>आपकी स्क्रीन की फोटो यहाँ दिखेगी</div>
+        <canvas id="view" aria-label="आपकी स्क्रीन की फोटो, लाल घेरा जहाँ दबाना है"></canvas>
+        <div class="loader" id="loader"><div class="spinner"></div>देख रहे हैं…</div>
+      </div>
+
+      <div class="step empty" id="stepCard">
+        <div class="eyebrow">अगला कदम</div>
+        <div id="stepText">अपने फोन की स्क्रीन की फोटो (स्क्रीनशॉट) भेजिए। हम बताएँगे कहाँ दबाना है।</div>
+      </div>
+
+      <div class="stack">
+        <button class="btn primary xl" id="shotBtn"><svg class="i"><use href="#i-camera"/></svg>स्क्रीन की फोटो भेजिए</button>
+        <input type="file" id="shotInput" accept="image/*" class="sr">
+        <div class="row">
+          <button class="btn secondary" id="repeatBtn"><svg class="i"><use href="#i-volume"/></svg>फिर सुनिए</button>
+          <button class="btn secondary" id="confusedBtn"><svg class="i"><use href="#i-help"/></svg>समझ नहीं आया</button>
+        </div>
+        <button class="btn wa" id="askChild"><svg class="i"><use href="#i-chat"/></svg><span id="askChildText">बेटे से पूछिए</span></button>
+      </div>
+
+      <details class="demo">
+        <summary>डेमो स्क्रीनशॉट · काल्पनिक, सिर्फ प्रस्तुति के लिए</summary>
+        <div class="demo-grid" id="demoGrid"></div>
+      </details>
+    </section>
+
+    <!-- DONE -->
+    <section class="screen" id="done">
+      <div class="done-wrap">
+        <div class="badge"><div class="inner"><svg class="i"><use href="#i-check"/></svg></div></div>
+        <h2 id="doneTitle">शाबाश!</h2>
+        <p id="doneText">काम हो गया।</p>
+        <button class="btn primary xl" id="againBtn"><svg class="i"><use href="#i-home"/></svg>नया काम</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="status" id="status">Scam Kavach चालू · लोड हो रहा है…</footer>
+</div>
+
+<!-- SCAM KAVACH -->
+<div id="scam" role="alertdialog" aria-live="assertive" aria-labelledby="scamTitle">
+  <div class="inner">
+    <div class="siren"><svg class="i"><use href="#i-hand"/></svg></div>
+    <h2 id="scamTitle">रुकिए!</h2>
+    <div class="warn" id="scamWarn"></div>
+    <div class="reason" id="scamReason"></div>
+    <div class="stack">
+      <button class="btn light xl" id="scamAlert"><svg class="i"><use href="#i-chat"/></svg><span id="scamAlertText">बेटे को बताइए</span></button>
+      <div class="row">
+        <button class="btn outline" id="scamRepeat"><svg class="i"><use href="#i-volume"/></svg>फिर सुनिए</button>
+        <button class="btn outline" id="scamClose"><svg class="i"><use href="#i-back"/></svg>वापस जाएँ</button>
+      </div>
+    </div>
+    <div class="tag"><svg class="i"><use href="#i-shield"/></svg><span id="scamTag"></span></div>
+  </div>
+</div>
+
+<script>
+(() => {
+  const $ = (id) => document.getElementById(id);
+  const SKILL_LABELS = {
+    "upi-collect-trap": "UPI कलेक्ट रिक्वेस्ट धोखा",
+    "kyc-sms-trap": "नकली KYC / खाता बंद मैसेज",
+    "remote-app-trap": "रिमोट ऐप (AnyDesk/TeamViewer) धोखा",
+    "digital-arrest-trap": "नकली पुलिस/CBI 'डिजिटल अरेस्ट' कॉल",
+    "otp-share-trap": "स्क्रीन पर OTP",
+  };
+  const DEMOS = [
+    ["whatsapp-home.svg", "1 · होम स्क्रीन"],
+    ["whatsapp-chats.svg", "2 · चैट लिस्ट"],
+    ["whatsapp-chat.svg", "3 · राहुल की चैट"],
+    ["whatsapp-attach.svg", "4 · अटैच मेन्यू"],
+    ["demopay-collect-scam.svg", "DemoPay कलेक्ट", true],
+    ["kyc-sms-scam.svg", "KYC मैसेज", true],
+    ["otp-sms.svg", "OTP मैसेज"],
+  ];
+
+  // ---------- settings (per-viewer, this phone only) ----------
+  const store = {
+    get() { try { return JSON.parse(localStorage.getItem("betabol") || "null"); } catch { return null; } },
+    set(v) { try { localStorage.setItem("betabol", JSON.stringify(v)); } catch {} },
+  };
+  let settings = store.get() || { parentName: "", childName: "", childPhone: "", rel: "बेटा" };
+  const childWord = () => settings.rel || "बेटा";          // बेटा / बेटी
+  const childObj = () => (settings.rel === "बेटी" ? "बेटी" : "बेटे"); // बेटे को / बेटी को
+  const childLabel = () => settings.childName ? `${childObj()} (${settings.childName})` : childObj();
+
+  // ---------- state ----------
+  const S = { goal: "", history: [], confused: 0, reply: null, img: null, target: null, busy: false };
+
+  function show(id) {
+    document.querySelectorAll(".screen").forEach((s) => s.classList.toggle("active", s.id === id));
+    window.scrollTo(0, 0);
+  }
+
+  function refreshLabels() {
+    $("hello").textContent = settings.parentName ? `नमस्ते, ${settings.parentName} जी 🙏` : "नमस्ते 🙏";
+    document.querySelectorAll("[data-goal]").forEach((b) => {
+      b.dataset.goal = b.dataset.goal.replace(/^(बेटे|बेटी) को/, `${childObj()} को`);
+    });
+    document.querySelectorAll("[data-sub]").forEach((s) => (s.textContent = s.dataset.sub.replace("{c}", childObj())));
+    $("askChildText").textContent = `${childLabel()} से पूछिए`;
+    $("scamAlertText").textContent = `${childLabel()} को अभी बताइए`;
+  }
+
+  // ---------- setup ----------
+  function openSetup() {
+    $("parentName").value = settings.parentName || "";
+    $("childName").value = settings.childName || "";
+    $("childPhone").value = settings.childPhone || "";
+    document.querySelectorAll('input[name=rel]').forEach((r) => (r.checked = r.value === childWord()));
+    show("setup");
+  }
+  $("settingsBtn").onclick = openSetup;
+  $("saveSetup").onclick = () => {
+    settings = {
+      parentName: $("parentName").value.trim(),
+      childName: $("childName").value.trim(),
+      childPhone: $("childPhone").value.replace(/\D/g, ""),
+      rel: document.querySelector('input[name=rel]:checked').value,
+    };
+    store.set(settings);
+    refreshLabels();
+    show("home");
+  };
+
+  function waLink(text) {
+    let num = settings.childPhone || "";
+    if (num.length === 10) num = "91" + num;
+    return `https://wa.me/${num}?text=${encodeURIComponent(text)}`;
+  }
+
+  // ---------- voice ----------
+  let audio = null;
+  function stopVoice() {
+    if (audio) { audio.pause(); audio = null; }
+    if ("speechSynthesis" in window) speechSynthesis.cancel();
+  }
+  function browserSpeak(text, rate = 0.9) {
+    if (!("speechSynthesis" in window)) return;
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = "hi-IN"; u.rate = rate;
+    const v = speechSynthesis.getVoices().find((v) => v.lang && v.lang.toLowerCase().startsWith("hi"));
+    if (v) u.voice = v;
+    speechSynthesis.speak(u);
+  }
+  async function speak(text, { slow = false } = {}) {
+    if (!text) return;
+    stopVoice();
+    if (!slow) {
+      try {
+        const r = await fetch("api/tts", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text }) });
+        if (r.status === 200) {
+          audio = new Audio(URL.createObjectURL(await r.blob()));
+          await audio.play();
+          return;
+        }
+      } catch (e) { /* fall through to browser voice */ }
+    }
+    browserSpeak(text, slow ? 0.75 : 0.9);
+  }
+  if ("speechSynthesis" in window) speechSynthesis.getVoices();
+
+  // ---------- goals ----------
+  function setStepNum() { $("stepNum").textContent = `कदम ${S.history.length + 1}`; }
+
+  function startGoal(goal) {
+    S.goal = goal; S.history = []; S.confused = 0; S.reply = null; S.img = null; S.target = null;
+    $("goalText").textContent = goal;
+    $("caution").classList.remove("show");
+    $("askChild").classList.remove("show");
+    drawStage();
+    setStepNum();
+    setStep("अपने फोन की स्क्रीन की फोटो (स्क्रीनशॉट) भेजिए। हम बताएँगे कहाँ दबाना है।", true);
+    show("guide");
+    speak("ठीक है। अब अपने फोन की स्क्रीन की फोटो भेजिए।");
+  }
+  document.querySelectorAll("[data-goal]").forEach((b) => (b.onclick = () => startGoal(b.dataset.goal)));
+
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  $("micBtn").onclick = () => {
+    if (!SR) { $("micHint").textContent = "इस ब्राउज़र में बोलकर बताने की सुविधा नहीं है। ऊपर से चुनिए।"; return; }
+    const rec = new SR();
+    rec.lang = "hi-IN"; rec.interimResults = false; rec.maxAlternatives = 1;
+    $("micHint").textContent = "सुन रहे हैं… बोलिए";
+    $("micBtn").classList.add("listening");
+    rec.onresult = (e) => { const t = e.results[0][0].transcript; $("micHint").textContent = `आपने कहा: "${t}"`; startGoal(t); };
+    rec.onerror = () => { $("micHint").textContent = "आवाज़ साफ़ नहीं आई, फिर से बोलिए या ऊपर से चुनिए।"; };
+    rec.onend = () => $("micBtn").classList.remove("listening");
+    rec.start();
+  };
+
+  // ---------- screenshot → JPEG ----------
+  function loadImage(src) {
+    return new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = src; });
+  }
+  async function toJpeg(img, maxSide = 1280) {
+    const scale = Math.min(1, maxSide / Math.max(img.naturalWidth, img.naturalHeight));
+    const c = document.createElement("canvas");
+    c.width = Math.round(img.naturalWidth * scale); c.height = Math.round(img.naturalHeight * scale);
+    const ctx = c.getContext("2d");
+    ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, c.width, c.height);
+    ctx.drawImage(img, 0, 0, c.width, c.height);
+    return new Promise((res) => c.toBlob(res, "image/jpeg", 0.85));
+  }
+
+  $("shotBtn").onclick = () => $("shotInput").click();
+  $("shotInput").onchange = async (e) => {
+    const f = e.target.files[0];
+    e.target.value = "";
+    if (f) await handleShot(URL.createObjectURL(f), f.name);
+  };
+  DEMOS.forEach(([file, label, scam]) => {
+    const b = document.createElement("button");
+    b.textContent = label;
+    if (scam) b.className = "scam";
+    b.onclick = () => handleShot(`demo/${file}`, file);
+    $("demoGrid").appendChild(b);
+  });
+
+  async function handleShot(src, name) {
+    if (S.busy) return;
+    S.busy = true;
+    stopVoice();
+    $("loader").classList.add("show");
+    $("caution").classList.remove("show");
+    try {
+      const img = await loadImage(src);
+      S.img = img; S.target = null;
+      drawStage();
+      const blob = await toJpeg(img);
+      const fd = new FormData();
+      fd.append("image", blob, name || "screen.jpg");
+      fd.append("goal", S.goal);
+      fd.append("history", JSON.stringify(S.history));
+      fd.append("person", JSON.stringify({ parent_name: settings.parentName, child_name: settings.childName }));
+      const r = await fetch("api/guide", { method: "POST", body: fd });
+      if (!r.ok) throw new Error("HTTP " + r.status);
+      handleReply(await r.json());
+    } catch (err) {
+      console.error(err);
+      setStep("थोड़ी दिक्कत आ गई। कृपया फिर से फोटो भेजिए।", false);
+      speak("थोड़ी दिक्कत आ गई। कृपया फिर से फोटो भेजिए।");
+    } finally {
+      $("loader").classList.remove("show");
+      S.busy = false;
+    }
+  }
+
+  // ---------- reply ----------
+  function handleReply(rep) {
+    S.reply = rep;
+    const scam = rep.scam || {};
+    if (scam.flag && scam.severity === "high") return showScam(rep);
+
+    S.target = rep.target;
+    drawStage();
+    let spoken = rep.step_hi;
+    if (scam.flag && scam.severity === "caution") {
+      $("cautionText").textContent = scam.warning_hi;
+      $("caution").classList.add("show");
+      navigator.vibrate && navigator.vibrate(200);
+      spoken = scam.warning_hi + " " + rep.step_hi;
+    }
+    if (rep.done) return celebrate();
+
+    setStepNum();
+    setStep(rep.step_hi, false);
+    if (rep.step_hi) S.history.push(rep.step_hi);
+    S.confused = 0;
+    $("askChild").classList.toggle("show", (rep.confidence ?? 1) < 0.5);
+    speak(spoken);
+  }
+
+  function setStep(text, empty) {
+    $("stepText").textContent = text;
+    $("stepCard").classList.toggle("empty", !!empty);
+  }
+
+  $("repeatBtn").onclick = () => speak(S.reply ? S.reply.step_hi : $("stepText").textContent);
+  $("confusedBtn").onclick = () => {
+    S.confused++;
+    const step = S.reply ? S.reply.step_hi : "";
+    if (S.confused >= 2) {
+      $("askChild").classList.add("show");
+      speak(`कोई बात नहीं। नीचे हरा बटन दबाकर ${childObj()} से पूछ लीजिए।`);
+    } else {
+      speak(step ? "धीरे से फिर सुनिए। " + step : "पहले स्क्रीन की फोटो भेजिए।", { slow: true });
+    }
+  };
+  $("askChild").onclick = () => {
+    const step = S.reply ? S.reply.step_hi : "(अभी शुरू किया)";
+    const msg = `🙏 ${settings.parentName || "मम्मी/पापा"} को फोन पर मदद चाहिए\n` +
+      `काम: ${S.goal}\nइस कदम पर अटके हैं: ${step}\nकृपया एक बार फोन कर लीजिए।\n— बेटा बोल`;
+    window.open(waLink(msg), "_blank");
+  };
+  $("homeBtn").onclick = () => { stopVoice(); show("home"); };
+  $("againBtn").onclick = () => { stopVoice(); show("home"); };
+
+  function celebrate() {
+    $("doneTitle").textContent = settings.parentName ? `शाबाश, ${settings.parentName} जी!` : "शाबाश!";
+    $("doneText").textContent = `"${S.goal}" — हो गया!`;
+    show("done");
+    navigator.vibrate && navigator.vibrate([100, 60, 100]);
+    speak(childWord() === "बेटी" ? "शाबाश! आपने खुद कर लिया। आपकी बेटी बहुत खुश होगी।"
+                                 : "शाबाश! आपने खुद कर लिया। आपका बेटा बहुत खुश होगा।");
+  }
+
+  // ---------- scam kavach ----------
+  function showScam(rep) {
+    const scam = rep.scam;
+    $("scamWarn").textContent = scam.warning_hi;
+    $("scamReason").textContent = scam.reason_hi || "";
+    const src = { "gemma+rules": "Gemma 4 + नियम दोनों ने पकड़ा", gemma: "Gemma 4 ने पकड़ा", rules: "नियमों ने पकड़ा" }[scam.source] || "";
+    $("scamTag").textContent = `Scam Kavach · ${SKILL_LABELS[scam.skill] || scam.skill} · ${src}`;
+    $("scam").classList.add("show");
+    navigator.vibrate && navigator.vibrate([500, 200, 500, 200, 500]);
+    speak(scam.warning_hi);
+  }
+  $("scamRepeat").onclick = () => S.reply && speak(S.reply.scam.warning_hi);
+  $("scamAlert").onclick = () => {
+    const scam = S.reply.scam;
+    const msg = `⚠️ बेटा बोल अलर्ट!\n${settings.parentName || "मम्मी/पापा"} के फोन पर धोखे जैसी स्क्रीन दिखी: ${SKILL_LABELS[scam.skill] || scam.skill}.\n` +
+      `उन्हें रोक दिया गया है। कृपया अभी फोन कीजिए।\n(वे यह कर रहे थे: ${S.goal})`;
+    window.open(waLink(msg), "_blank");
+  };
+  $("scamClose").onclick = () => {
+    stopVoice();
+    $("scam").classList.remove("show");
+    S.target = null; drawStage();
+    setStep("बहुत अच्छा किया जो रुक गए। वापस जाकर सही स्क्रीन की फोटो भेजिए।", false);
+    speak("बहुत अच्छा किया जो रुक गए।");
+  };
+
+  // ---------- canvas + pulsing red ring ----------
+  const view = $("view"), ctx = view.getContext("2d");
+  let raf = 0;
+  function drawStage() {
+    cancelAnimationFrame(raf);
+    $("placeholder").style.display = S.img ? "none" : "flex";
+    if (!S.img) { view.style.display = "none"; return; }
+    view.style.display = "block";
+    const maxW = view.parentElement.clientWidth - 20;
+    const maxH = window.innerHeight * 0.52;
+    const scale = Math.min(maxW / S.img.naturalWidth, maxH / S.img.naturalHeight);
+    const dpr = window.devicePixelRatio || 1;
+    const w = Math.round(S.img.naturalWidth * scale), h = Math.round(S.img.naturalHeight * scale);
+    view.style.width = w + "px"; view.style.height = h + "px";
+    view.width = w * dpr; view.height = h * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const t0 = performance.now();
+    const frame = (now) => {
+      ctx.clearRect(0, 0, w, h);
+      ctx.drawImage(S.img, 0, 0, w, h);
+      if (S.target) {
+        const x = (S.target.x / 1000) * w, y = (S.target.y / 1000) * h;
+        const p = ((now - t0) % 1200) / 1200;
+        const base = Math.max(18, w * 0.07);
+        ctx.fillStyle = "rgba(0,0,0,.28)";
+        ctx.beginPath(); ctx.rect(0, 0, w, h); ctx.arc(x, y, base * 1.6, 0, Math.PI * 2, true); ctx.fill();
+        ctx.lineWidth = 6; ctx.strokeStyle = "#ef4444";
+        ctx.beginPath(); ctx.arc(x, y, base, 0, Math.PI * 2); ctx.stroke();
+        ctx.lineWidth = 4; ctx.strokeStyle = `rgba(239,68,68,${1 - p})`;
+        ctx.beginPath(); ctx.arc(x, y, base + p * base * 1.2, 0, Math.PI * 2); ctx.stroke();
+        raf = requestAnimationFrame(frame);
+      }
+    };
+    raf = requestAnimationFrame(frame);
+  }
+  window.addEventListener("resize", () => S.img && drawStage());
+
+  // ---------- status bar ----------
+  fetch("api/health").then((r) => r.json()).then((h) => {
+    const voice = h.voice === "elevenlabs" ? `${childWord()} की आवाज़` : "ब्राउज़र आवाज़";
+    $("status").innerHTML =
+      `<span class="s"><svg class="i"><use href="#i-cpu"/></svg><b>Gemma 4</b> ${h.model}</span><span class="sep"></span>` +
+      `<span class="s"><svg class="i"><use href="#i-shield"/></svg>${h.skills} skills</span><span class="sep"></span>` +
+      `<span class="s"><svg class="i"><use href="#i-volume"/></svg>${voice}</span>` +
+      (h.mode !== "gemma" ? '<span class="mock">MOCK</span>' : "");
+  }).catch(() => { $("status").textContent = "सर्वर से जुड़ नहीं पाए"; });
+
+  if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
+
+  refreshLabels();
+  if (settings.childPhone || settings.parentName) show("home"); else openSetup();
+})();
+</script>
+</body>
+</html>

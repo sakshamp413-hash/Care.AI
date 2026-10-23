@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="780" viewBox="0 0 360 780" font-family="Roboto, Noto Sans Devanagari, Nirmala UI, Arial, sans-serif">
+<rect width="360" height="780" fill="#fff"/><rect width="360" height="28" fill="#000" opacity=".85"/><text x="14" y="19" fill="#fff" font-size="13">10:42</text><text x="296" y="19" fill="#fff" font-size="13">4G 78%</text>
+<text x="16" y="68" font-size="24" font-weight="700" fill="#25a35a">WhatsApp</text>
+<text x="300" y="68" font-size="20" fill="#333">⋮</text>
+<rect x="14" y="100" width="332" height="40" rx="20" fill="#f1f3f5"/><text x="34" y="125" font-size="14" fill="#888">Ask Meta AI or Search</text>
+<g font-size="15">
+<circle cx="40" cy="180" r="24" fill="#74c0fc"/><text x="40" y="186" text-anchor="middle" fill="#fff" font-weight="700">R</text>
+<text x="76" y="174" font-weight="700" fill="#111">Rahul Beta</text><text x="76" y="196" font-size="13" fill="#666">Mummy photo bhejna ghar ki</text><text x="300" y="174" font-size="12" fill="#25a35a">10:30</text>
+<circle cx="40" cy="250" r="24" fill="#ffa94d"/><text x="40" y="256" text-anchor="middle" fill="#fff" font-weight="700">P</text>
+<text x="76" y="244" font-weight="700" fill="#111">Priya Didi</text><text x="76" y="266" font-size="13" fill="#666">Jai Shri Krishna</text><text x="300" y="244" font-size="12" fill="#888">09:12</text>
+<circle cx="40" cy="320" r="24" fill="#8ce99a"/><text x="40" y="326" text-anchor="middle" fill="#fff" font-weight="700">F</text>
+<text x="76" y="314" font-weight="700" fill="#111">Family Group</text><text x="76" y="336" font-size="13" fill="#666">Sunita: Good morning</text><text x="286" y="314" font-size="12" fill="#888">Yesterday</text>
+</g>
+<circle cx="316" cy="680" r="28" fill="#25d366"/><text x="316" y="689" text-anchor="middle" fill="#fff" font-size="26">+</text>
+<g font-size="12" fill="#333" text-anchor="middle"><text x="45" y="745" font-weight="700">Chats</text><text x="135" y="745">Updates</text><text x="225" y="745">Communities</text><text x="315" y="745">Calls</text></g>
+<text x="180" y="772" text-anchor="middle" font-size="9" fill="#888">DEMO SCREENSHOT · काल्पनिक · Beta Bol</text></svg>

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="780" viewBox="0 0 360 780" font-family="Roboto, Noto Sans Devanagari, Nirmala UI, Arial, sans-serif">
+<defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3b5bdb"/><stop offset="1" stop-color="#862e9c"/></linearGradient></defs>
+<rect width="360" height="780" fill="url(#g)"/><rect width="360" height="28" fill="#000" opacity=".85"/><text x="14" y="19" fill="#fff" font-size="13">10:42</text><text x="296" y="19" fill="#fff" font-size="13">4G 78%</text>
+<text x="180" y="110" text-anchor="middle" fill="#fff" font-size="54" font-weight="300">10:42</text>
+<text x="180" y="140" text-anchor="middle" fill="#fff" font-size="15">Thursday, 23 October</text>
+<g font-size="12" fill="#fff" text-anchor="middle">
+<rect x="34" y="320" width="58" height="58" rx="16" fill="#fff"/><text x="63" y="357" fill="#e03131" font-size="22">▶</text><text x="63" y="396">YouTube</text>
+<rect x="114" y="320" width="58" height="58" rx="16" fill="#fff"/><text x="143" y="358" fill="#1971c2" font-size="24">☎</text><text x="143" y="396">Phone</text>
+<rect x="194" y="320" width="58" height="58" rx="16" fill="#fff"/><text x="223" y="358" fill="#f08c00" font-size="24">✉</text><text x="223" y="396">Messages</text>
+<rect x="274" y="320" width="58" height="58" rx="16" fill="#fff"/><text x="303" y="358" fill="#495057" font-size="24">⚙</text><text x="303" y="396">Settings</text>
+<rect x="74" y="455" width="58" height="58" rx="16" fill="#fff"/><circle cx="103" cy="484" r="14" fill="none" stroke="#2f9e44" stroke-width="4"/><text x="103" y="531">Camera</text>
+<rect x="151" y="455" width="58" height="58" rx="16" fill="#25d366"/><circle cx="180" cy="483" r="16" fill="none" stroke="#fff" stroke-width="3.5"/><path d="M167 494 l-5 11 11 -4z" fill="#fff"/><text x="180" y="531">WhatsApp</text>
+<rect x="228" y="455" width="58" height="58" rx="16" fill="#fff"/><rect x="242" y="470" width="30" height="26" rx="4" fill="#5f3dc4"/><text x="257" y="531">Gallery</text>
+</g>
+<rect x="40" y="650" width="280" height="44" rx="22" fill="#fff" opacity=".9"/><text x="66" y="678" font-size="14" fill="#666">G   Search</text>
+<text x="180" y="772" text-anchor="middle" font-size="9" fill="#888">DEMO SCREENSHOT · काल्पनिक · Beta Bol</text></svg>
