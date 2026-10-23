@@ -25,7 +25,7 @@ def guide(filename="screen.png", goal="बेटे को WhatsApp पर फ�
 def test_health():
     h = client.get("/api/health").json()
     assert h["status"] == "ok" and h["mode"] == "mock"
-    assert h["model"] == "gemma-4-26b-a4b-it" and h["skills"] == 6
+    assert h["model"] == "gemma-4-26b-a4b-it" and h["skills"] == 7
 
 
 def test_skills_endpoint():
@@ -65,3 +65,27 @@ def test_tts_falls_back_to_browser():
 def test_frontend_served():
     r = client.get("/")
     assert r.status_code == 200 and "बेटा बोल" in r.text
+
+
+def chat(text, lang="hi"):
+    return client.post("/api/chat", json={"text": text, "lang": lang, "history": []}).json()
+
+
+def test_chat_flags_caller_asking_for_otp():
+    r = chat("Bank wale ka call aaya hai, OTP maang rahe hain.")
+    assert r["scam"]["severity"] == "high" and r["scam"]["skill"] == "fake-caller-trap"
+    assert r["reply"].startswith("रुकिए")
+
+
+def test_chat_normal_question_is_not_a_scam():
+    r = chat("WhatsApp par photo kaise bhejte hain?")
+    assert r["scam"]["flag"] is False and r["reply"] and r["mode"] == "mock"
+
+
+def test_chat_rejects_empty_text():
+    assert client.post("/api/chat", json={"text": "  "}).status_code == 400
+
+
+def test_voice_ui_served():
+    r = client.get("/voice/")
+    assert r.status_code == 200 and "Beta Bol se baat kijiye" in r.text

@@ -29,7 +29,7 @@
   })();
 
   // ---------------------------------------------------------------- screens
-  const state = { lang: "hi", paused: false, demoToken: 0 };
+  const state = { lang: "hi", paused: false, demoToken: 0, history: [] };
 
   function show(id) {
     document.querySelectorAll(".screen").forEach((s) => s.classList.toggle("active", s.id === id));
@@ -218,6 +218,7 @@
 
   async function handleUserSpeech(text) {
     addMessage("user", text);
+    state.history.push({ role: "user", text });
     setCaption(text);
     try {
       await api.onUserSpeech(text, state.lang);
@@ -227,16 +228,82 @@
     }
   }
 
-  // Demo responder used until the backend overrides BetaBol.onUserSpeech.
+  // ---------------------------------------------------------------- backend (FastAPI: /api/chat + /api/tts)
+  const API = window.BETABOL_API ?? "";
+  const family = (() => { try { return JSON.parse(localStorage.getItem("betabol") || "{}") || {}; } catch { return {}; } })();
+  const childName = family.childName || "aapke bete";
+
+  async function backendResponder(text, lang) {
+    let data;
+    setCaption("Soch raha hoon…", true);
+    try {
+      const r = await fetch(`${API}/api/chat`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text, lang, history: state.history.slice(-8),
+          person: { parent_name: family.parentName || "", child_name: family.childName || "" } }),
+      });
+      if (!r.ok) throw new Error(`HTTP ${r.status}`);
+      data = await r.json();
+    } catch (err) {
+      console.warn("[BetaBol] backend unreachable, using local demo responder", err);
+      setModelPill({ mode: "offline" });
+      return demoResponder(text);
+    }
+    setModelPill(data);
+    const warning = data.scam && data.scam.severity === "high";
+    addMessage("ai", data.reply, { warning });
+    state.history.push({ role: "ai", text: data.reply });
+    if (warning) addAlertChip(data.scam);
+    await speakReply(data.reply);
+  }
+
+  async function speakReply(text) {
+    try {
+      const r = await fetch(`${API}/api/tts`, {
+        method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text }),
+      });
+      if (r.status === 200) { setCaption(text); return await playAIAudio(await r.blob()); }
+    } catch (err) { /* fall back to the browser voice */ }
+    return speakLocal(text);
+  }
+
+  function addAlertChip(scam) {
+    const phone = (family.childPhone || "").replace(/\D/g, "");
+    if (!phone) return addSystem(`Scam Kavach: ${scam.skill}`);
+    const num = phone.length === 10 ? "91" + phone : phone;
+    const msg = `⚠️ Beta Bol alert: ${family.parentName || "Mummy/Papa"} ke saath scam ki koshish ho rahi hai (${scam.skill}). Kripya abhi call kijiye.`;
+    const a = document.createElement("a");
+    a.className = "sys link";
+    a.href = `https://wa.me/${num}?text=${encodeURIComponent(msg)}`;
+    a.target = "_blank";
+    a.rel = "noopener";
+    a.innerHTML = '<svg class="i"><use href="#i-family"/></svg>';
+    a.appendChild(document.createTextNode(`${family.childName || "Bete"} ko WhatsApp par bataiye`));
+    $("messages").appendChild(a);
+    scrollChat();
+  }
+
+  function setModelPill(h) {
+    const pill = $("modelPill");
+    if (!pill) return;
+    const live = h.mode === "gemma";
+    pill.className = `model-pill ${live ? "live" : "off"}`;
+    pill.textContent = live ? `Gemma 4 · ${h.model} · live`
+      : h.mode === "offline" ? "Backend se connect nahi hua · demo mode"
+      : h.mode === "mock-fallback" ? `Gemma error — ${(h.error || h.last_error || "").slice(0, 80)}`
+      : "MOCK mode — .env mein GEMINI_API_KEY daaliye";
+  }
+
+  // Local demo responder, used only when the backend can't be reached.
   const SCAM_WORDS = /\b(otp|kyc|lottery|lucky draw|prize|anydesk|teamviewer|cbi|police|arrest|pin|cashback|refund)\b|ओटीपी|लॉटरी|केवाईसी|पिन|इनाम/i;
   async function demoResponder(text) {
     const scam = SCAM_WORDS.test(text);
     const reply = scam
       ? "Rukiye! Ye scam ho sakta hai. Bank ya police kabhi OTP, PIN ya paise nahi maangte. Call kaat dijiye — maine aapke bete ko bata diya hai."
       : "Theek hai. Apne phone ki screen ka photo bhejiye, main ek-ek kadam bataunga.";
-    await speakLocal(reply);
     addMessage("ai", reply, { warning: scam });
-    if (scam) addSystem("Rahul ko WhatsApp alert bheja gaya");
+    await speakLocal(reply);
   }
 
   // Browser voice + simulated orb amplitude (stand-in for ElevenLabs audio).
@@ -280,7 +347,7 @@
       await sleep(m.warning ? 400 : 700);
     }
     if (token !== state.demoToken) return;
-    addSystem("Rahul ko WhatsApp alert bheja gaya");
+    addSystem(`${family.childName || "Rahul"} ko WhatsApp alert bheja gaya`);
     await sleep(900);
     if (token === state.demoToken) setCaption("Ab aap boliye — orb dabaiye", true);
   }
@@ -446,8 +513,10 @@
   // ---------------------------------------------------------------- public API
   const api = {
     startListening, stopListening, playAIAudio, setOrbState, addMessage,
-    onUserSpeech: demoResponder,
+    onUserSpeech: backendResponder,
   };
+
+  fetch(`${API}/api/health`).then((r) => r.json()).then(setModelPill).catch(() => setModelPill({ mode: "offline" }));
   window.BetaBol = api;
   Object.assign(window, { startListening, stopListening, playAIAudio, setOrbState, addMessage });
   console.log("[BetaBol] hooks ready: startListening, stopListening, playAIAudio, setOrbState, addMessage, BetaBol.onUserSpeech");

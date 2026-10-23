@@ -98,7 +98,13 @@ h1 { margin: 0; font-size: 44px; line-height: 1.1; font-weight: 800; color: var(
   background: var(--glass); z-index: -1;
 }
 
-.chat-title { font-size: 30px; text-align: center; margin: 2px 0 14px; }
+.chat-title { font-size: 30px; text-align: center; margin: 2px 0 6px; }
+.model-pill {
+  align-self: center; margin: 0 0 10px; padding: 4px 12px; border-radius: 999px; font-size: 13px; font-weight: 700;
+  color: var(--muted); border: 1px solid var(--glass-line); background: var(--glass); max-width: 100%; text-align: center;
+}
+.model-pill.live { color: #9FF0C4; border-color: rgba(40, 200, 120, .4); background: rgba(40, 200, 120, .1); }
+.model-pill.off { color: #FFD48A; border-color: rgba(255, 176, 32, .4); background: rgba(255, 176, 32, .1); }
 
 /* Chat screen fits the viewport: messages take the leftover space and scroll. */
 body.in-chat .app { height: 100vh; height: 100dvh; min-height: 0; }
@@ -135,6 +141,7 @@ body.in-chat .app { height: 100vh; height: 100dvh; min-height: 0; }
   color: #9FF0C4; background: rgba(40, 200, 120, .1); border: 1px solid rgba(40, 200, 120, .3);
   padding: 6px 12px; border-radius: 999px; animation: pop .35s ease-out both;
 }
+a.sys.link { min-height: 48px; padding: 8px 16px; text-decoration: none; color: #0B2E18; background: #25D366; border-color: #25D366; font-weight: 700; }
 
 .orb-wrap { display: flex; flex-direction: column; align-items: center; margin-top: 4px; }
 .orb-btn { border: 0; background: none; padding: 0; border-radius: 50%; width: 264px; height: 264px; }

@@ -8,7 +8,7 @@ import json
 import os
 from pathlib import Path
 
-from dotenv import load_dotenv
+from dotenv import dotenv_values, load_dotenv
 
 load_dotenv()
 
@@ -19,13 +19,21 @@ from pydantic import BaseModel  # noqa: E402
 from . import gemma, kavach, mock, tts  # noqa: E402
 from .skills import load_skills  # noqa: E402
 
-STATIC_DIR = Path(__file__).resolve().parent.parent / "static"
+ROOT = Path(__file__).resolve().parent.parent
+STATIC_DIR = ROOT / "static"
+VOICE_DIR = ROOT / "frontend"
+ENV_FILE = ROOT / ".env"
 MAX_IMAGE_BYTES = 8 * 1024 * 1024
 
 app = FastAPI(title="Beta Bol", version="1.0")
+last_error = ""
 
 
 def mock_mode() -> bool:
+    # Re-read API keys from .env so adding a key takes effect without restarting the server.
+    for k, v in dotenv_values(ENV_FILE).items():
+        if k.endswith(("_API_KEY", "_VOICE_ID")) and v:
+            os.environ[k] = v
     return os.getenv("MOCK", "").strip() == "1" or not gemma.available()
 
 
@@ -45,6 +53,8 @@ def health():
         "model": gemma.MODEL,
         "voice": "elevenlabs" if tts.available() else "browser",
         "skills": len(load_skills()),
+        "key_present": gemma.available(),
+        "last_error": last_error,
     }
 
 
@@ -72,12 +82,15 @@ async def guide(
     who = _json_field(person, {})
     parent, child = str(who.get("parent_name", "")), str(who.get("child_name", ""))
 
+    global last_error
     mode = "mock" if mock_mode() else "gemma"
     if mode == "gemma":
         try:
             reply = gemma.analyze(data, mime, goal, steps, parent, child)
+            last_error = ""
         except Exception as e:  # keep the demo alive if the API hiccups
-            print(f"[guide] Gemma failed, using mock fallback: {e}")
+            last_error = f"{type(e).__name__}: {e}"[:300]
+            print(f"[guide] Gemma failed, using mock fallback: {last_error}")
             reply, mode = mock.analyze(goal, steps, image.filename or ""), "mock-fallback"
     else:
         reply = mock.analyze(goal, steps, image.filename or "")
@@ -90,6 +103,43 @@ async def guide(
     reply["mode"] = mode
     reply["model"] = gemma.MODEL if mode == "gemma" else "mock"
     return reply
+
+
+class ChatRequest(BaseModel):
+    text: str
+    lang: str = "hi"
+    history: list[dict] = []
+    person: dict = {}
+
+
+@app.post("/api/chat")
+def chat(req: ChatRequest):
+    """Voice chat: one thing the parent said in, Beta Bol's reply + Scam Kavach verdict out."""
+    global last_error
+    text = req.text.strip()[:500]
+    if not text:
+        raise HTTPException(400, "Empty text")
+    lang = "en" if req.lang == "en" else "hi"
+    parent, child = str(req.person.get("parent_name", "")), str(req.person.get("child_name", ""))
+
+    mode = "mock" if mock_mode() else "gemma"
+    if mode == "gemma":
+        try:
+            reply = gemma.chat(text, lang, req.history, parent, child)
+            last_error = ""
+        except Exception as e:
+            last_error = f"{type(e).__name__}: {e}"[:300]
+            print(f"[chat] Gemma failed, using mock fallback: {last_error}")
+            reply, mode = mock.chat(text, lang), "mock-fallback"
+    else:
+        reply = mock.chat(text, lang)
+
+    # Layer 2 rules run on the parent's own words.
+    scam = kavach.judge(reply["scam"], text)
+    if scam["severity"] == "high" and "gemma" not in scam["source"]:
+        reply["reply"] = scam["warning_hi"]  # model missed it; the skill's warning takes over
+    return {"reply": reply["reply"], "scam": scam, "mode": mode,
+            "model": gemma.MODEL if mode == "gemma" else "mock", "error": last_error if mode != "gemma" else ""}
 
 
 class TTSRequest(BaseModel):
@@ -105,5 +155,6 @@ def speak(req: TTSRequest):
                     headers={"Cache-Control": "public, max-age=86400"})
 
 
-app.mount("/skills", StaticFiles(directory=STATIC_DIR.parent / "skills"), name="skills")
+app.mount("/skills", StaticFiles(directory=ROOT / "skills"), name="skills")
+app.mount("/voice", StaticFiles(directory=VOICE_DIR, html=True), name="voice")
 app.mount("/", StaticFiles(directory=STATIC_DIR, html=True), name="static")

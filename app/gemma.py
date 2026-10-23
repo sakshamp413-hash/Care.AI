@@ -9,22 +9,25 @@ from .skills import get_skill, scam_skills
 MODEL = os.getenv("GEMMA_MODEL", "gemma-4-26b-a4b-it")
 
 _client = None
+_client_key = None
+
+
+def _api_key() -> str:
+    return os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY") or ""
 
 
 def available() -> bool:
-    return bool(os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY"))
+    return bool(_api_key())
 
 
 def _get_client():
-    global _client
-    if _client is None:
+    global _client, _client_key
+    if _client is None or _client_key != _api_key():
         from google import genai
         from google.genai import types
 
-        _client = genai.Client(
-            api_key=os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY"),
-            http_options=types.HttpOptions(timeout=60_000),
-        )
+        _client_key = _api_key()
+        _client = genai.Client(api_key=_client_key, http_options=types.HttpOptions(timeout=60_000))
     return _client
 
 
@@ -82,3 +85,47 @@ def analyze(image_bytes: bytes, mime: str, goal: str, history: list[str],
     if not data:
         raise ValueError(f"Model reply had no JSON: {text[:200]!r}")
     return normalize_reply(data)
+
+
+def build_chat_prompt(text: str, lang: str, history: list[dict], parent_name: str, child_name: str) -> str:
+    scam_lines = "\n".join(f'- "{s.name}" ({s.severity}): {s.description}' for s in scam_skills())
+    turns = "\n".join(f'{"Parent" if h.get("role") == "user" else "Beta Bol"}: {h.get("text", "")}'
+                      for h in history[-8:]) or "(start of conversation)"
+    language = ("simple spoken Hindi in Devanagari script" if lang == "hi" else "simple, warm English")
+    return f"""You are "Beta Bol", a patient son/daughter-like voice assistant helping an elderly Indian parent
+with their smartphone, and protecting them from scams.
+Parent: {parent_name or "माँ/पापा"}. Child: {child_name or "बेटा"}.
+
+Scam skills to check the parent's words against:
+{scam_lines}
+
+Conversation so far:
+{turns}
+Parent just said: "{text}"
+
+Rules:
+- Reply in {language}. Maximum 2 short sentences (35 words). Respectful ("आप").
+- If the parent describes a scam (someone asking for OTP/PIN, KYC/account-block threat, lottery/prize,
+  remote-access app, police/CBI "digital arrest"), start with "रुकिए!" (or "Stop!") and tell them exactly what to do.
+- Never ask for or repeat a PIN, OTP or password. Never suggest installing AnyDesk/TeamViewer.
+- For phone help, give only the ONE next step. If they need on-screen help, ask them to send a screenshot.
+
+Reply with exactly this JSON (no markdown):
+{{"reply": "<what Beta Bol says>", "scam": {{"flag": false, "skill": "<scam skill name or empty>", "reason_hi": "<short Hindi reason or empty>"}}}}"""
+
+
+def chat(text: str, lang: str, history: list[dict], parent_name: str = "", child_name: str = "") -> dict:
+    from google.genai import types
+
+    resp = _get_client().models.generate_content(
+        model=MODEL,
+        contents=[build_chat_prompt(text, lang, history, parent_name, child_name)],
+        config=types.GenerateContentConfig(temperature=0.3, max_output_tokens=1024),
+    )
+    raw = resp.text or ""
+    data = extract_json(raw)
+    reply = str(data.get("reply") or "").strip() if data else raw.strip()
+    if not reply:
+        raise ValueError(f"Empty model reply: {raw[:200]!r}")
+    scam = normalize_reply({"scam": data.get("scam")})["scam"] if data else {"flag": False, "skill": "", "reason_hi": ""}
+    return {"reply": reply, "scam": scam}

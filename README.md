@@ -47,6 +47,7 @@ If **either** layer flags the screen, the app warns. High severity beats caution
 | [`kyc-sms-trap`](skills/kyc-sms-trap/SKILL.md) | high | Fake KYC, account-blocked, and "electricity cut tonight" messages |
 | [`remote-app-trap`](skills/remote-app-trap/SKILL.md) | high | AnyDesk, TeamViewer, QuickSupport, and screen-share prompts |
 | [`digital-arrest-trap`](skills/digital-arrest-trap/SKILL.md) | high | Fake CBI, police, or customs video calls |
+| [`fake-caller-trap`](skills/fake-caller-trap/SKILL.md) | high | A caller asking for an OTP, PIN or card details (said in voice chat) |
 | [`otp-share-trap`](skills/otp-share-trap/SKILL.md) | caution | An OTP visible on screen |
 | [`phone-guide-hindi`](skills/phone-guide-hindi/SKILL.md) | guide | The guidance style: one action per step, at most 20 words, respectful Hindi, never asks for a PIN or OTP |
 
@@ -67,7 +68,7 @@ cp .env.example .env          # add your keys (optional, see below)
 uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
-Open http://localhost:8000.
+Open http://localhost:8000 for the screenshot guide, or http://localhost:8000/voice/ for the voice chat UI.
 
 - **No keys?** The app runs in **mock mode** with canned steps, and the status bar shows `MOCK`. The keyword rules still run, so loading the demo scam screenshot still triggers Scam Kavach.
 - **`GEMINI_API_KEY`** turns on Gemma 4. Get a key at https://aistudio.google.com/apikey.
@@ -87,6 +88,7 @@ The tests cover skill spec validation, every skill catching its own example, fal
 | Method | Path | Description |
 |---|---|---|
 | `POST` | `/api/guide` | multipart: `image`, `goal`, `history` (JSON list of previous steps), `person` (JSON `{parent_name, child_name}`) → `{screen_text, app, scam{flag, skill, severity, warning_hi, reason_hi, source}, step_hi, target{x,y}, target_label, done, confidence, mode, model}` |
+| `POST` | `/api/chat` | `{text, lang, history, person}` → `{reply, scam{...}, mode, model, error}` (voice chat; rules also run on the parent's words) |
 | `POST` | `/api/tts` | `{text}` → `audio/mpeg`, or `204` (use the browser voice) |
 | `GET` | `/api/health` | mode, model, voice, skill count |
 | `GET` | `/api/skills` | all loaded skills |

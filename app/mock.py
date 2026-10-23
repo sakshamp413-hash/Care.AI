@@ -38,6 +38,12 @@ MOCK_SCREEN_TEXT = {
 }
 
 
+def chat(text: str, lang: str) -> dict:
+    reply = ("ठीक है। अपने फोन की स्क्रीन की फोटो भेजिए, मैं एक-एक कदम बताऊँगा।" if lang == "hi"
+             else "Okay. Please send a screenshot of your phone screen and I'll guide you one step at a time.")
+    return {"reply": reply, "scam": {"flag": False, "skill": "", "reason_hi": ""}}
+
+
 def pick_flow(goal: str) -> str:
     g = (goal or "").lower()
     if "वीडियो" in g or "video" in g:
