@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import os
+import time
 
 from .parsing import extract_json, normalize_reply
 from .skills import get_skill, scam_skills
@@ -29,6 +30,29 @@ def _get_client():
         _client_key = _api_key()
         _client = genai.Client(api_key=_client_key, http_options=types.HttpOptions(timeout=60_000))
     return _client
+
+
+def _generate(contents, config, attempts: int = 3):
+    """generate_content with retries: the Gemini API intermittently returns 500/503/429."""
+    from google.genai import errors
+
+    for i in range(attempts):
+        try:
+            return _get_client().models.generate_content(model=MODEL, contents=contents, config=config)
+        except errors.APIError as e:
+            retryable = getattr(e, "code", None) in (429, 500, 502, 503, 504)
+            if not retryable or i == attempts - 1:
+                raise
+            time.sleep(0.8 * (2 ** i))
+
+
+def _why_empty(resp) -> str:
+    try:
+        c = resp.candidates[0] if resp.candidates else None
+        u = resp.usage_metadata
+        return f"finish={c and c.finish_reason} thoughts={u.thoughts_token_count} out={u.candidates_token_count}"
+    except Exception:
+        return "no metadata"
 
 
 def build_prompt(goal: str, history: list[str], parent_name: str, child_name: str) -> str:
@@ -75,15 +99,19 @@ def analyze(image_bytes: bytes, mime: str, goal: str, history: list[str],
     from google.genai import types
 
     prompt = build_prompt(goal, history, parent_name, child_name)
-    resp = _get_client().models.generate_content(
-        model=MODEL,
-        contents=[types.Part.from_bytes(data=image_bytes, mime_type=mime), prompt],
-        config=types.GenerateContentConfig(temperature=0.2, max_output_tokens=2048),
+    resp = _generate(
+        [types.Part.from_bytes(data=image_bytes, mime_type=mime), prompt],
+        types.GenerateContentConfig(temperature=0.2, max_output_tokens=4096),
     )
     text = resp.text or ""
     data = extract_json(text)
+    if not data:  # thinking can occasionally crowd out the answer; try once more
+        resp = _generate([types.Part.from_bytes(data=image_bytes, mime_type=mime), prompt],
+                         types.GenerateContentConfig(temperature=0.2, max_output_tokens=4096))
+        text = resp.text or ""
+        data = extract_json(text)
     if not data:
-        raise ValueError(f"Model reply had no JSON: {text[:200]!r}")
+        raise ValueError(f"Model reply had no JSON ({_why_empty(resp)}): {text[:120]!r} … {text[-80:]!r}")
     return normalize_reply(data)
 
 
@@ -117,15 +145,19 @@ Reply with exactly this JSON (no markdown):
 def chat(text: str, lang: str, history: list[dict], parent_name: str = "", child_name: str = "") -> dict:
     from google.genai import types
 
-    resp = _get_client().models.generate_content(
-        model=MODEL,
-        contents=[build_chat_prompt(text, lang, history, parent_name, child_name)],
-        config=types.GenerateContentConfig(temperature=0.3, max_output_tokens=1024),
-    )
-    raw = resp.text or ""
-    data = extract_json(raw)
-    reply = str(data.get("reply") or "").strip() if data else raw.strip()
+    # Gemma 4 always "thinks" first (not configurable on this model), so leave room for it,
+    # and retry once if the visible answer still comes back empty.
+    for _ in range(2):
+        resp = _generate(
+            [build_chat_prompt(text, lang, history, parent_name, child_name)],
+            types.GenerateContentConfig(temperature=0.3, max_output_tokens=3072),
+        )
+        raw = resp.text or ""
+        data = extract_json(raw)
+        reply = str(data.get("reply") or "").strip() if data else raw.strip()
+        if reply:
+            break
     if not reply:
-        raise ValueError(f"Empty model reply: {raw[:200]!r}")
+        raise ValueError(f"Empty model reply ({_why_empty(resp)}): {raw[:200]!r}")
     scam = normalize_reply({"scam": data.get("scam")})["scam"] if data else {"flag": False, "skill": "", "reason_hi": ""}
     return {"reply": reply, "scam": scam}

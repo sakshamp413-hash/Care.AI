@@ -26,6 +26,15 @@ ENV_FILE = ROOT / ".env"
 MAX_IMAGE_BYTES = 8 * 1024 * 1024
 
 app = FastAPI(title="Beta Bol", version="1.0")
+
+# Honest answers when Gemma fails with a real key (mock steps are only for keyless demo mode).
+GUIDE_RETRY = {
+    "screen_text": "", "app": "", "scam": {"flag": False, "skill": "", "reason_hi": ""},
+    "step_hi": "माफ़ कीजिए, यह स्क्रीन ठीक से पढ़ नहीं पाए। कृपया फिर से फोटो भेजिए।",
+    "target": None, "target_label": "", "done": False, "confidence": 0.0,
+}
+CHAT_RETRY = {"hi": "माफ़ कीजिए, अभी जवाब नहीं दे पाए। कृपया फिर से बोलिए।",
+              "en": "Sorry, I couldn't answer just now. Please say that again."}
 last_error = ""
 
 
@@ -88,10 +97,11 @@ async def guide(
         try:
             reply = gemma.analyze(data, mime, goal, steps, parent, child)
             last_error = ""
-        except Exception as e:  # keep the demo alive if the API hiccups
+        except Exception as e:
+            # Never guess on a real screen: canned steps could be wrong or miss a scam.
             last_error = f"{type(e).__name__}: {e}"[:300]
-            print(f"[guide] Gemma failed, using mock fallback: {last_error}")
-            reply, mode = mock.analyze(goal, steps, image.filename or ""), "mock-fallback"
+            print(f"[guide] Gemma failed: {last_error}")
+            reply, mode = dict(GUIDE_RETRY), "error"
     else:
         reply = mock.analyze(goal, steps, image.filename or "")
 
@@ -129,8 +139,8 @@ def chat(req: ChatRequest):
             last_error = ""
         except Exception as e:
             last_error = f"{type(e).__name__}: {e}"[:300]
-            print(f"[chat] Gemma failed, using mock fallback: {last_error}")
-            reply, mode = mock.chat(text, lang), "mock-fallback"
+            print(f"[chat] Gemma failed: {last_error}")
+            reply, mode = {"reply": CHAT_RETRY[lang], "scam": {"flag": False, "skill": "", "reason_hi": ""}}, "error"
     else:
         reply = mock.chat(text, lang)
 

@@ -4,7 +4,8 @@ from __future__ import annotations
 import json
 import re
 
-_DECODER = json.JSONDecoder()
+# strict=False: models often put raw newlines inside strings (e.g. multi-line screen_text).
+_DECODER = json.JSONDecoder(strict=False)
 _EXPECTED = {"step_hi", "screen_text", "scam", "target", "done"}
 
 
@@ -28,7 +29,7 @@ def extract_json(text: str) -> dict:
     if not text:
         return {}
     try:
-        obj = json.loads(text)
+        obj = json.loads(text, strict=False)
         if isinstance(obj, dict):
             return obj
     except json.JSONDecodeError:

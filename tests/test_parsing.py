@@ -47,3 +47,8 @@ def test_normalize_target_clamped_and_list_form():
 def test_normalize_scam_flag_string():
     r = normalize_reply({"scam": {"flag": "yes", "skill": "remote-app-trap"}})
     assert r["scam"]["flag"] is True and r["scam"]["skill"] == "remote-app-trap"
+
+
+def test_raw_newline_inside_string_is_tolerated():
+    raw = '```json\n{\n  "screen_text": "10:42 4G\nRahul Beta",\n  "step_hi": "दबाइए", "done": false}\n```'
+    assert extract_json(raw)["step_hi"] == "दबाइए"

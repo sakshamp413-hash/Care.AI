@@ -291,7 +291,7 @@
     pill.className = `model-pill ${live ? "live" : "off"}`;
     pill.textContent = live ? `Gemma 4 · ${h.model} · live`
       : h.mode === "offline" ? "Backend se connect nahi hua · demo mode"
-      : h.mode === "mock-fallback" ? `Gemma error — ${(h.error || h.last_error || "").slice(0, 80)}`
+      : (h.mode === "mock-fallback" || h.mode === "error") ? `Gemma error — ${(h.error || h.last_error || "").slice(0, 80)}`
       : "MOCK mode — .env mein GEMINI_API_KEY daaliye";
   }
 

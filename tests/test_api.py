@@ -89,3 +89,24 @@ def test_chat_rejects_empty_text():
 def test_voice_ui_served():
     r = client.get("/voice/")
     assert r.status_code == 200 and "Beta Bol se baat kijiye" in r.text
+
+
+def _boom(*a, **k):
+    raise RuntimeError("API down")
+
+
+def test_gemma_failure_never_guesses_a_step(monkeypatch):
+    import app.main as m
+    monkeypatch.setattr(m, "mock_mode", lambda: False)
+    monkeypatch.setattr(m.gemma, "analyze", _boom)
+    r = guide(filename="whatsapp-home.png")
+    assert r["mode"] == "error" and r["target"] is None and r["confidence"] == 0.0
+    assert "फिर से" in r["step_hi"]
+
+
+def test_chat_failure_still_runs_scam_rules(monkeypatch):
+    import app.main as m
+    monkeypatch.setattr(m, "mock_mode", lambda: False)
+    monkeypatch.setattr(m.gemma, "chat", _boom)
+    r = chat("Bank wale ka call aaya hai, OTP maang rahe hain.")
+    assert r["mode"] == "error" and r["scam"]["severity"] == "high" and r["reply"].startswith("रुकिए")

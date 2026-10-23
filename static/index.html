@@ -271,7 +271,7 @@
       <div class="stage">
         <div class="placeholder" id="placeholder"><svg class="i"><use href="#i-camera"/></svg>आपकी स्क्रीन की फोटो यहाँ दिखेगी</div>
         <canvas id="view" aria-label="आपकी स्क्रीन की फोटो, लाल घेरा जहाँ दबाना है"></canvas>
-        <div class="loader" id="loader"><div class="spinner"></div>देख रहे हैं…</div>
+        <div class="loader" id="loader"><div class="spinner"></div><span id="loaderText">देख रहे हैं…</span></div>
       </div>
 
       <div class="step empty" id="stepCard">
@@ -497,6 +497,13 @@
     S.busy = true;
     stopVoice();
     $("loader").classList.add("show");
+    // Gemma 4 reads the screen carefully (often 20-40s): keep the elder informed while waiting.
+    const t0 = Date.now();
+    $("loaderText").textContent = "देख रहे हैं…";
+    const tick = setInterval(() => {
+      const s = Math.round((Date.now() - t0) / 1000);
+      $("loaderText").textContent = s < 8 ? "देख रहे हैं…" : s < 25 ? `ध्यान से पढ़ रहे हैं… ${s} सेकंड` : `बस थोड़ा और… ${s} सेकंड`;
+    }, 1000);
     $("caution").classList.remove("show");
     try {
       const img = await loadImage(src);
@@ -516,6 +523,7 @@
       setStep("थोड़ी दिक्कत आ गई। कृपया फिर से फोटो भेजिए।", false);
       speak("थोड़ी दिक्कत आ गई। कृपया फिर से फोटो भेजिए।");
     } finally {
+      clearInterval(tick);
       $("loader").classList.remove("show");
       S.busy = false;
     }
@@ -540,7 +548,7 @@
 
     setStepNum();
     setStep(rep.step_hi, false);
-    if (rep.step_hi) S.history.push(rep.step_hi);
+    if (rep.step_hi && rep.mode !== "error") S.history.push(rep.step_hi); // don't record "please resend" as a step
     S.confused = 0;
     $("askChild").classList.toggle("show", (rep.confidence ?? 1) < 0.5);
     speak(spoken);
