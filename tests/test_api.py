@@ -110,3 +110,17 @@ def test_chat_failure_still_runs_scam_rules(monkeypatch):
     monkeypatch.setattr(m.gemma, "chat", _boom)
     r = chat("Bank wale ka call aaya hai, OTP maang rahe hain.")
     assert r["mode"] == "error" and r["scam"]["severity"] == "high" and r["reply"].startswith("रुकिए")
+
+
+def test_guide_in_english():
+    r = client.post("/api/guide", files={"image": ("screen.png", PNG, "image/png")},
+                    data={"goal": "Send a photo to my son on WhatsApp", "lang": "en", "history": "[]"}).json()
+    assert r["step_hi"].startswith("Tap") and r["target"]
+
+
+def test_scam_warning_in_english():
+    r = client.post("/api/guide", files={"image": ("demopay-collect-scam.svg", PNG, "image/png")},
+                    data={"goal": "Send money", "lang": "en"}).json()
+    assert r["scam"]["severity"] == "high" and r["step_hi"].startswith("Stop!")
+    r = chat("Someone from the bank is asking for my OTP, otp maang rahe hain", lang="en")
+    assert r["reply"].startswith("Stop!")

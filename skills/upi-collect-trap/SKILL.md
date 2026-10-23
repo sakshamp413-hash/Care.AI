@@ -36,6 +36,14 @@ Entering a UPI PIN **always sends money out**. Nobody ever needs a PIN to receiv
 
 UPI PIN डालने से पैसे आपके खाते से जाते हैं, आते नहीं। कोई अनजान व्यक्ति "पैसे भेज रहा हूँ, PIN डालो" कहे तो वह ठग है।
 
+## Warning (English)
+
+Stop! You never need to enter your UPI PIN to receive money. This is a scam - do not enter your PIN.
+
+## Explanation (English)
+
+Entering a UPI PIN sends money OUT of your account, never in. A stranger saying "enter your PIN to get money" is a fraudster.
+
 ## Example
 
 DemoPay — Collect request from Lucky Draw Winner. You have won ₹5,000 cashback! Enter UPI PIN to receive money. Pay ₹5,000.

@@ -33,6 +33,7 @@ GUIDE_RETRY = {
     "step_hi": "माफ़ कीजिए, यह स्क्रीन ठीक से पढ़ नहीं पाए। कृपया फिर से फोटो भेजिए।",
     "target": None, "target_label": "", "done": False, "confidence": 0.0,
 }
+GUIDE_RETRY_EN = "Sorry, I couldn't read this screen properly. Please send the screenshot again."
 CHAT_RETRY = {"hi": "माफ़ कीजिए, अभी जवाब नहीं दे पाए। कृपया फिर से बोलिए।",
               "en": "Sorry, I couldn't answer just now. Please say that again."}
 last_error = ""
@@ -76,10 +77,12 @@ def skills():
 async def guide(
     image: UploadFile = File(...),
     goal: str = Form(...),
+    lang: str = Form("hi"),
     history: str = Form("[]"),
     person: str = Form("{}"),
 ):
     # Screenshots are processed in memory only and never written to disk or logs.
+    lang = "en" if lang == "en" else "hi"
     data = await image.read()
     if not data:
         raise HTTPException(400, "Empty image")
@@ -95,17 +98,19 @@ async def guide(
     mode = "mock" if mock_mode() else "gemma"
     if mode == "gemma":
         try:
-            reply = gemma.analyze(data, mime, goal, steps, parent, child)
+            reply = gemma.analyze(data, mime, goal, steps, parent, child, lang)
             last_error = ""
         except Exception as e:
             # Never guess on a real screen: canned steps could be wrong or miss a scam.
             last_error = f"{type(e).__name__}: {e}"[:300]
             print(f"[guide] Gemma failed: {last_error}")
             reply, mode = dict(GUIDE_RETRY), "error"
+            if lang == "en":
+                reply["step_hi"] = GUIDE_RETRY_EN
     else:
-        reply = mock.analyze(goal, steps, image.filename or "")
+        reply = mock.analyze(goal, steps, image.filename or "", lang)
 
-    scam = kavach.judge(reply["scam"], reply["screen_text"])
+    scam = kavach.judge(reply["scam"], reply["screen_text"], lang)
     reply["scam"] = scam
     if scam["severity"] == "high":
         # Never guide forward on a scam screen.
@@ -145,7 +150,7 @@ def chat(req: ChatRequest):
         reply = mock.chat(text, lang)
 
     # Layer 2 rules run on the parent's own words.
-    scam = kavach.judge(reply["scam"], text)
+    scam = kavach.judge(reply["scam"], text, lang)
     if scam["severity"] == "high" and "gemma" not in scam["source"]:
         reply["reply"] = scam["warning_hi"]  # model missed it; the skill's warning takes over
     return {"reply": reply["reply"], "scam": scam, "mode": mode,

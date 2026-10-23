@@ -194,105 +194,110 @@
   <header class="topbar">
     <div class="brand">
       <img src="icon-192.png" alt="">
-      <div><b>बेटा बोल</b><span>फोन गाइड · Scam Kavach</span></div>
+      <div><b data-i18n="brand">बेटा बोल</b><span data-i18n="brandSub">फोन गाइड · Scam Kavach</span></div>
     </div>
-    <button class="icon-btn" id="settingsBtn" aria-label="परिवार की सेटिंग"><svg class="i"><use href="#i-gear"/></svg></button>
+    <div class="top-actions">
+      <button class="lang-btn" id="langBtn" data-i18n-aria="langAria" aria-label="भाषा बदलें: हिंदी या English">
+        <span data-lang="hi" class="on">हिं</span><span data-lang="en">EN</span>
+      </button>
+      <button class="icon-btn" id="settingsBtn" data-i18n-aria="settingsAria" aria-label="परिवार की सेटिंग"><svg class="i"><use href="#i-gear"/></svg></button>
+    </div>
   </header>
 
   <main>
     <!-- SETUP -->
     <section class="screen" id="setup">
       <div class="card">
-        <div class="eyebrow">एक बार की सेटिंग</div>
-        <h2 style="margin-top:4px">परिवार की जानकारी</h2>
-        <p class="sub">यह बच्चे एक बार भर दें।</p>
-        <label class="f" for="parentName">माता / पिता का नाम</label>
-        <input type="text" id="parentName" placeholder="जैसे: शांति देवी" autocomplete="off">
-        <label class="f">कौन मदद करेगा?</label>
+        <div class="eyebrow" data-i18n="setupEyebrow">एक बार की सेटिंग</div>
+        <h2 style="margin-top:4px" data-i18n="setupTitle">परिवार की जानकारी</h2>
+        <p class="sub" data-i18n="setupSub">यह बच्चे एक बार भर दें।</p>
+        <label class="f" for="parentName" data-i18n="parentLabel">माता / पिता का नाम</label>
+        <input type="text" id="parentName" data-i18n-ph="parentPh" placeholder="जैसे: शांति देवी" autocomplete="off">
+        <label class="f" data-i18n="whoHelps">कौन मदद करेगा?</label>
         <div class="seg">
-          <label><input type="radio" name="rel" value="बेटा" checked><span>बेटा</span></label>
-          <label><input type="radio" name="rel" value="बेटी"><span>बेटी</span></label>
+          <label><input type="radio" name="rel" value="बेटा" checked><span data-i18n="son">बेटा</span></label>
+          <label><input type="radio" name="rel" value="बेटी"><span data-i18n="daughter">बेटी</span></label>
         </div>
-        <label class="f" for="childName">बच्चे का नाम</label>
-        <input type="text" id="childName" placeholder="जैसे: राहुल" autocomplete="off">
-        <label class="f" for="childPhone">बच्चे का WhatsApp नंबर</label>
+        <label class="f" for="childName" data-i18n="childLabel">बच्चे का नाम</label>
+        <input type="text" id="childName" data-i18n-ph="childPh" placeholder="जैसे: राहुल" autocomplete="off">
+        <label class="f" for="childPhone" data-i18n="phoneLabel">बच्चे का WhatsApp नंबर</label>
         <input type="tel" id="childPhone" placeholder="98765 43210" inputmode="tel" autocomplete="off">
         <div class="note"><svg class="i" style="font-size:20px;margin-top:2px"><use href="#i-lock"/></svg>
-          <span>जानकारी सिर्फ इसी फोन में रहती है। फोटो कहीं सेव नहीं होतीं।</span></div>
-        <button class="btn primary xl" id="saveSetup" style="margin-top:20px"><svg class="i"><use href="#i-check"/></svg>सेव करें</button>
+          <span data-i18n="privacy">जानकारी सिर्फ इसी फोन में रहती है। फोटो कहीं सेव नहीं होतीं।</span></div>
+        <button class="btn primary xl" id="saveSetup" style="margin-top:20px"><svg class="i"><use href="#i-check"/></svg><span data-i18n="save">सेव करें</span></button>
       </div>
     </section>
 
     <!-- HOME -->
     <section class="screen" id="home">
       <div class="card hero">
-        <span class="chip safe"><span class="dot"></span>Scam Kavach चालू है</span>
+        <span class="chip safe"><span class="dot"></span><span data-i18n="safeChip">Scam Kavach चालू है</span></span>
         <div>
           <h2 id="hello">नमस्ते!</h2>
-          <p class="sub">आज फोन में क्या करना है?</p>
+          <p class="sub" data-i18n="todayQ">आज फोन में क्या करना है?</p>
         </div>
       </div>
 
-      <div class="section-title">एक काम चुनिए</div>
+      <div class="section-title" data-i18n="pickTask">एक काम चुनिए</div>
       <div class="tiles">
-        <button class="tile" data-goal="बेटे को WhatsApp पर फोटो भेजनी है">
+        <button class="tile" data-goal="" data-goal-key="photo">
           <span class="ic green"><svg class="i"><use href="#i-image"/></svg></span>
-          <b>फोटो भेजनी है</b><small data-sub="WhatsApp पर {c} को">WhatsApp पर बेटे को</small>
+          <b data-i18n="photoT">फोटो भेजनी है</b><small data-sub="photoS"></small>
         </button>
-        <button class="tile" data-goal="बेटे को वीडियो कॉल करना है">
+        <button class="tile" data-goal="" data-goal-key="video">
           <span class="ic blue"><svg class="i"><use href="#i-video"/></svg></span>
-          <b>वीडियो कॉल</b><small data-sub="{c} से बात करनी है">बेटे से बात करनी है</small>
+          <b data-i18n="videoT">वीडियो कॉल</b><small data-sub="videoS"></small>
         </button>
-        <button class="tile" data-goal="UPI से पैसे भेजने हैं">
+        <button class="tile" data-goal="" data-goal-key="upi">
           <span class="ic purple"><svg class="i"><use href="#i-rupee"/></svg></span>
-          <b>पैसे भेजने हैं</b><small>UPI से, सुरक्षित तरीके से</small>
+          <b data-i18n="upiT">पैसे भेजने हैं</b><small data-i18n="upiS">UPI से, सुरक्षित तरीके से</small>
         </button>
-        <button class="tile" data-goal="फोन में कुछ अजीब आया है, देखना है कि सुरक्षित है या नहीं">
+        <button class="tile" data-goal="" data-goal-key="check">
           <span class="ic red"><svg class="i"><use href="#i-shield-alert"/></svg></span>
-          <b>कुछ अजीब आया है</b><small>धोखा तो नहीं? जाँचिए</small>
+          <b data-i18n="checkT">कुछ अजीब आया है</b><small data-i18n="checkS">धोखा तो नहीं? जाँचिए</small>
         </button>
       </div>
 
-      <div class="or">या</div>
-      <button class="btn mic xl" id="micBtn"><svg class="i"><use href="#i-mic"/></svg>बोलकर बताइए</button>
+      <div class="or" data-i18n="or">या</div>
+      <button class="btn mic xl" id="micBtn"><svg class="i"><use href="#i-mic"/></svg><span data-i18n="mic">बोलकर बताइए</span></button>
       <p class="hint" id="micHint"></p>
     </section>
 
     <!-- GUIDE -->
     <section class="screen" id="guide">
       <div class="guide-top">
-        <button class="back" id="homeBtn" aria-label="वापस"><svg class="i"><use href="#i-back"/></svg></button>
-        <div class="goal"><div class="eyebrow">आपका काम</div><div id="goalText"></div></div>
+        <button class="back" id="homeBtn" data-i18n-aria="backAria" aria-label="वापस"><svg class="i"><use href="#i-back"/></svg></button>
+        <div class="goal"><div class="eyebrow" data-i18n="yourTask">आपका काम</div><div id="goalText"></div></div>
         <span class="stepnum" id="stepNum">कदम 1</span>
       </div>
 
       <div class="caution" id="caution"><svg class="i"><use href="#i-shield-alert"/></svg><span id="cautionText"></span></div>
 
       <div class="stage">
-        <div class="placeholder" id="placeholder"><svg class="i"><use href="#i-camera"/></svg>आपकी स्क्रीन की फोटो यहाँ दिखेगी</div>
-        <canvas id="view" aria-label="आपकी स्क्रीन की फोटो, लाल घेरा जहाँ दबाना है"></canvas>
+        <div class="placeholder" id="placeholder"><svg class="i"><use href="#i-camera"/></svg><span data-i18n="placeholder">आपकी स्क्रीन की फोटो यहाँ दिखेगी</span></div>
+        <canvas id="view" data-i18n-aria="canvasAria" aria-label="आपकी स्क्रीन की फोटो, लाल घेरा जहाँ दबाना है"></canvas>
         <div class="loader" id="loader"><div class="spinner"></div><span id="loaderText">देख रहे हैं…</span></div>
       </div>
 
       <div class="step empty" id="stepCard">
-        <div class="eyebrow">अगला कदम</div>
+        <div class="eyebrow" data-i18n="nextStep">अगला कदम</div>
         <div id="stepText">अपने फोन की स्क्रीन की फोटो (स्क्रीनशॉट) भेजिए। हम बताएँगे कहाँ दबाना है।</div>
       </div>
 
       <div id="bb-orb"></div>
 
       <div class="stack">
-        <button class="btn primary xl" id="shotBtn"><svg class="i"><use href="#i-camera"/></svg>स्क्रीन की फोटो भेजिए</button>
+        <button class="btn primary xl" id="shotBtn"><svg class="i"><use href="#i-camera"/></svg><span data-i18n="sendShot">स्क्रीन की फोटो भेजिए</span></button>
         <input type="file" id="shotInput" accept="image/*" class="sr">
         <div class="row">
-          <button class="btn secondary" id="repeatBtn"><svg class="i"><use href="#i-volume"/></svg>फिर सुनिए</button>
-          <button class="btn secondary" id="confusedBtn"><svg class="i"><use href="#i-help"/></svg>समझ नहीं आया</button>
+          <button class="btn secondary" id="repeatBtn"><svg class="i"><use href="#i-volume"/></svg><span data-i18n="repeat">फिर सुनिए</span></button>
+          <button class="btn secondary" id="confusedBtn"><svg class="i"><use href="#i-help"/></svg><span data-i18n="confused">समझ नहीं आया</span></button>
         </div>
         <button class="btn wa" id="askChild"><svg class="i"><use href="#i-chat"/></svg><span id="askChildText">बेटे से पूछिए</span></button>
       </div>
 
       <details class="demo">
-        <summary>डेमो स्क्रीनशॉट · काल्पनिक, सिर्फ प्रस्तुति के लिए</summary>
+        <summary data-i18n="demoSummary">डेमो स्क्रीनशॉट · काल्पनिक, सिर्फ प्रस्तुति के लिए</summary>
         <div class="demo-grid" id="demoGrid"></div>
       </details>
     </section>
@@ -303,26 +308,26 @@
         <div class="badge"><div class="inner"><svg class="i"><use href="#i-check"/></svg></div></div>
         <h2 id="doneTitle">शाबाश!</h2>
         <p id="doneText">काम हो गया।</p>
-        <button class="btn primary xl" id="againBtn"><svg class="i"><use href="#i-home"/></svg>नया काम</button>
+        <button class="btn primary xl" id="againBtn"><svg class="i"><use href="#i-home"/></svg><span data-i18n="again">नया काम</span></button>
       </div>
     </section>
   </main>
 
-  <footer class="status" id="status">Scam Kavach चालू · लोड हो रहा है…</footer>
+  <footer class="status" id="status">Scam Kavach · …</footer>
 </div>
 
 <!-- SCAM KAVACH -->
 <div id="scam" role="alertdialog" aria-live="assertive" aria-labelledby="scamTitle">
   <div class="inner">
     <div class="siren"><svg class="i"><use href="#i-hand"/></svg></div>
-    <h2 id="scamTitle">रुकिए!</h2>
+    <h2 id="scamTitle" data-i18n="scamTitle">रुकिए!</h2>
     <div class="warn" id="scamWarn"></div>
     <div class="reason" id="scamReason"></div>
     <div class="stack">
       <button class="btn light xl" id="scamAlert"><svg class="i"><use href="#i-chat"/></svg><span id="scamAlertText">बेटे को बताइए</span></button>
       <div class="row">
-        <button class="btn outline" id="scamRepeat"><svg class="i"><use href="#i-volume"/></svg>फिर सुनिए</button>
-        <button class="btn outline" id="scamClose"><svg class="i"><use href="#i-back"/></svg>वापस जाएँ</button>
+        <button class="btn outline" id="scamRepeat"><svg class="i"><use href="#i-volume"/></svg><span data-i18n="repeat">फिर सुनिए</span></button>
+        <button class="btn outline" id="scamClose"><svg class="i"><use href="#i-back"/></svg><span data-i18n="goBack">वापस जाएँ</span></button>
       </div>
     </div>
     <div class="tag"><svg class="i"><use href="#i-shield"/></svg><span id="scamTag"></span></div>
@@ -332,21 +337,101 @@
 <script>
 (() => {
   const $ = (id) => document.getElementById(id);
-  const SKILL_LABELS = {
-    "upi-collect-trap": "UPI कलेक्ट रिक्वेस्ट धोखा",
-    "kyc-sms-trap": "नकली KYC / खाता बंद मैसेज",
-    "remote-app-trap": "रिमोट ऐप (AnyDesk/TeamViewer) धोखा",
-    "digital-arrest-trap": "नकली पुलिस/CBI 'डिजिटल अरेस्ट' कॉल",
-    "otp-share-trap": "स्क्रीन पर OTP",
+
+  // ---------- strings (Hindi / English) ----------
+  const STR = {
+    hi: {
+      brand: "बेटा बोल", brandSub: "फोन गाइड · Scam Kavach",
+      langAria: "भाषा बदलें: हिंदी या English", settingsAria: "परिवार की सेटिंग",
+      setupEyebrow: "एक बार की सेटिंग", setupTitle: "परिवार की जानकारी", setupSub: "यह बच्चे एक बार भर दें।",
+      parentLabel: "माता / पिता का नाम", parentPh: "जैसे: शांति देवी", whoHelps: "कौन मदद करेगा?",
+      son: "बेटा", daughter: "बेटी", childLabel: "बच्चे का नाम", childPh: "जैसे: राहुल",
+      phoneLabel: "बच्चे का WhatsApp नंबर", privacy: "जानकारी सिर्फ इसी फोन में रहती है। फोटो कहीं सेव नहीं होतीं।",
+      save: "सेव करें", safeChip: "Scam Kavach चालू है",
+      hello: "नमस्ते 🙏", helloName: "नमस्ते, {n} जी 🙏", todayQ: "आज फोन में क्या करना है?", pickTask: "एक काम चुनिए",
+      photoT: "फोटो भेजनी है", photoS: "WhatsApp पर {c} को", videoT: "वीडियो कॉल", videoS: "{c} से बात करनी है",
+      upiT: "पैसे भेजने हैं", upiS: "UPI से, सुरक्षित तरीके से", checkT: "कुछ अजीब आया है", checkS: "धोखा तो नहीं? जाँचिए",
+      goal_photo: "{c} को WhatsApp पर फोटो भेजनी है", goal_video: "{c} को वीडियो कॉल करना है",
+      goal_upi: "UPI से पैसे भेजने हैं", goal_check: "फोन में कुछ अजीब आया है, देखना है कि सुरक्षित है या नहीं",
+      childObjSon: "बेटे", childObjDaughter: "बेटी",
+      or: "या", mic: "बोलकर बताइए",
+      micUnsupported: "इस ब्राउज़र में बोलकर बताने की सुविधा नहीं है। ऊपर से चुनिए।",
+      micListening: "सुन रहे हैं… बोलिए", micHeard: "आपने कहा: \"{t}\"", micError: "आवाज़ साफ़ नहीं आई, फिर से बोलिए या ऊपर से चुनिए।",
+      backAria: "वापस", yourTask: "आपका काम", stepN: "कदम {n}",
+      placeholder: "आपकी स्क्रीन की फोटो यहाँ दिखेगी", canvasAria: "आपकी स्क्रीन की फोटो, लाल घेरा जहाँ दबाना है",
+      loader1: "देख रहे हैं…", loader2: "ध्यान से पढ़ रहे हैं… {s} सेकंड", loader3: "बस थोड़ा और… {s} सेकंड",
+      nextStep: "अगला कदम", stepIntro: "अपने फोन की स्क्रीन की फोटो (स्क्रीनशॉट) भेजिए। हम बताएँगे कहाँ दबाना है।",
+      sendShot: "स्क्रीन की फोटो भेजिए", repeat: "फिर सुनिए", confused: "समझ नहीं आया",
+      askChild: "{c} से पूछिए", tellChild: "{c} को अभी बताइए",
+      demoSummary: "डेमो स्क्रीनशॉट · काल्पनिक, सिर्फ प्रस्तुति के लिए",
+      demos: ["1 · होम स्क्रीन", "2 · चैट लिस्ट", "3 · राहुल की चैट", "4 · अटैच मेन्यू", "DemoPay कलेक्ट", "KYC मैसेज", "OTP मैसेज"],
+      done: "शाबाश!", doneName: "शाबाश, {n} जी!", doneText: "\"{g}\" — हो गया!", again: "नया काम",
+      scamTitle: "रुकिए!", goBack: "वापस जाएँ",
+      srcBoth: "Gemma 4 + नियम दोनों ने पकड़ा", srcGemma: "Gemma 4 ने पकड़ा", srcRules: "नियमों ने पकड़ा",
+      sayStart: "ठीक है। अब अपने फोन की स्क्रीन की फोटो भेजिए।",
+      errorRetry: "थोड़ी दिक्कत आ गई। कृपया फिर से फोटो भेजिए।",
+      slowAgain: "धीरे से फिर सुनिए। ", sendFirst: "पहले स्क्रीन की फोटो भेजिए।",
+      noProblem: "कोई बात नहीं। नीचे हरा बटन दबाकर {c} से पूछ लीजिए।",
+      stopped: "बहुत अच्छा किया जो रुक गए।", stoppedStep: "बहुत अच्छा किया जो रुक गए। वापस जाकर सही स्क्रीन की फोटो भेजिए।",
+      cheerSon: "शाबाश! आपने खुद कर लिया। आपका बेटा बहुत खुश होगा।", cheerDaughter: "शाबाश! आपने खुद कर लिया। आपकी बेटी बहुत खुश होगी।",
+      parentFallback: "मम्मी/पापा", startedJustNow: "(अभी शुरू किया)",
+      waHelp: "🙏 {p} को फोन पर मदद चाहिए\nकाम: {g}\nइस कदम पर अटके हैं: {s}\nकृपया एक बार फोन कर लीजिए।\n— बेटा बोल",
+      waAlert: "⚠️ बेटा बोल अलर्ट!\n{p} के फोन पर धोखे जैसी स्क्रीन दिखी: {k}.\nउन्हें रोक दिया गया है। कृपया अभी फोन कीजिए।\n(वे यह कर रहे थे: {g})",
+      voiceChild: "{c} की आवाज़", voiceBrowser: "ब्राउज़र आवाज़", serverDown: "सर्वर से जुड़ नहीं पाए",
+      skills: {
+        "upi-collect-trap": "UPI कलेक्ट रिक्वेस्ट धोखा", "kyc-sms-trap": "नकली KYC / खाता बंद मैसेज",
+        "remote-app-trap": "रिमोट ऐप (AnyDesk/TeamViewer) धोखा", "digital-arrest-trap": "नकली पुलिस/CBI 'डिजिटल अरेस्ट' कॉल",
+        "otp-share-trap": "स्क्रीन पर OTP", "fake-caller-trap": "OTP/PIN माँगने वाला नकली कॉलर", "lottery-prize-trap": "नकली लॉटरी / इनाम",
+      },
+    },
+    en: {
+      brand: "Beta Bol", brandSub: "Phone guide · Scam Kavach",
+      langAria: "Change language: Hindi or English", settingsAria: "Family settings",
+      setupEyebrow: "One-time setup", setupTitle: "Family details", setupSub: "Ask your child to fill this in once.",
+      parentLabel: "Parent's name", parentPh: "e.g. Shanti Devi", whoHelps: "Who will help?",
+      son: "Son", daughter: "Daughter", childLabel: "Child's name", childPh: "e.g. Rahul",
+      phoneLabel: "Child's WhatsApp number", privacy: "This stays only on this phone. Screenshots are never saved.",
+      save: "Save", safeChip: "Scam Kavach is on",
+      hello: "Namaste 🙏", helloName: "Namaste, {n} ji 🙏", todayQ: "What would you like to do on your phone today?", pickTask: "Choose a task",
+      photoT: "Send a photo", photoS: "to your {c} on WhatsApp", videoT: "Video call", videoS: "talk to your {c}",
+      upiT: "Send money", upiS: "safely, with UPI", checkT: "Something looks odd", checkS: "Is it a scam? Check it",
+      goal_photo: "Send a photo to my {c} on WhatsApp", goal_video: "Video call my {c}",
+      goal_upi: "Send money with UPI", goal_check: "Something odd appeared on my phone; check if it is safe",
+      childObjSon: "son", childObjDaughter: "daughter",
+      or: "or", mic: "Say it aloud",
+      micUnsupported: "Voice input isn't available in this browser. Please choose a task above.",
+      micListening: "Listening… please speak", micHeard: "You said: \"{t}\"", micError: "I couldn't hear clearly. Please speak again or choose above.",
+      backAria: "Back", yourTask: "Your task", stepN: "Step {n}",
+      placeholder: "Your screenshot will appear here", canvasAria: "Your screenshot, with a red ring where to tap",
+      loader1: "Looking…", loader2: "Reading carefully… {s} sec", loader3: "Almost there… {s} sec",
+      nextStep: "Next step", stepIntro: "Send a screenshot of your phone screen. We'll show you where to tap.",
+      sendShot: "Send a screenshot", repeat: "Hear again", confused: "I didn't understand",
+      askChild: "Ask {c}", tellChild: "Tell {c} now",
+      demoSummary: "Demo screenshots · fictional, for presentation only",
+      demos: ["1 · Home screen", "2 · Chat list", "3 · Rahul's chat", "4 · Attach menu", "DemoPay collect", "KYC message", "OTP message"],
+      done: "Well done!", doneName: "Well done, {n} ji!", doneText: "\"{g}\" — done!", again: "New task",
+      scamTitle: "Stop!", goBack: "Go back",
+      srcBoth: "caught by Gemma 4 + rules", srcGemma: "caught by Gemma 4", srcRules: "caught by rules",
+      sayStart: "Okay. Now send a screenshot of your phone screen.",
+      errorRetry: "Something went wrong. Please send the screenshot again.",
+      slowAgain: "Listen again, slowly. ", sendFirst: "First, send a screenshot of your screen.",
+      noProblem: "No problem. Tap the green button below to ask your {c}.",
+      stopped: "Well done for stopping.", stoppedStep: "Well done for stopping. Go back and send a screenshot of the right screen.",
+      cheerSon: "Well done! You did it yourself. Your son will be so happy.", cheerDaughter: "Well done! You did it yourself. Your daughter will be so happy.",
+      parentFallback: "Mum/Dad", startedJustNow: "(just started)",
+      waHelp: "🙏 {p} needs help with the phone\nTask: {g}\nStuck on this step: {s}\nPlease give them a call.\n— Beta Bol",
+      waAlert: "⚠️ Beta Bol alert!\nA scam-like screen appeared on {p}'s phone: {k}.\nThey have been stopped. Please call them now.\n(They were trying to: {g})",
+      voiceChild: "{c}'s voice", voiceBrowser: "Browser voice", serverDown: "Could not reach the server",
+      skills: {
+        "upi-collect-trap": "UPI collect-request scam", "kyc-sms-trap": "Fake KYC / account-blocked message",
+        "remote-app-trap": "Remote-access app (AnyDesk/TeamViewer) scam", "digital-arrest-trap": "Fake police/CBI 'digital arrest' call",
+        "otp-share-trap": "OTP on screen", "fake-caller-trap": "Fake caller asking for OTP/PIN", "lottery-prize-trap": "Fake lottery / prize",
+      },
+    },
   };
-  const DEMOS = [
-    ["whatsapp-home.svg", "1 · होम स्क्रीन"],
-    ["whatsapp-chats.svg", "2 · चैट लिस्ट"],
-    ["whatsapp-chat.svg", "3 · राहुल की चैट"],
-    ["whatsapp-attach.svg", "4 · अटैच मेन्यू"],
-    ["demopay-collect-scam.svg", "DemoPay कलेक्ट", true],
-    ["kyc-sms-scam.svg", "KYC मैसेज", true],
-    ["otp-sms.svg", "OTP मैसेज"],
+  const DEMO_FILES = [
+    ["whatsapp-home.svg"], ["whatsapp-chats.svg"], ["whatsapp-chat.svg"], ["whatsapp-attach.svg"],
+    ["demopay-collect-scam.svg", true], ["kyc-sms-scam.svg", true], ["otp-sms.svg"],
   ];
 
   // ---------- settings (per-viewer, this phone only) ----------
@@ -355,9 +440,20 @@
     set(v) { try { localStorage.setItem("betabol", JSON.stringify(v)); } catch {} },
   };
   let settings = store.get() || { parentName: "", childName: "", childPhone: "", rel: "बेटा" };
-  const childWord = () => settings.rel || "बेटा";          // बेटा / बेटी
-  const childObj = () => (settings.rel === "बेटी" ? "बेटी" : "बेटे"); // बेटे को / बेटी को
-  const childLabel = () => settings.childName ? `${childObj()} (${settings.childName})` : childObj();
+  if (!settings.lang) settings.lang = "hi";
+  const L = () => (settings.lang === "en" ? "en" : "hi");
+  const t = (key, vars = {}) => {
+    const s = STR[L()][key] ?? STR.hi[key] ?? key;
+    return typeof s === "string" ? s.replace(/\{(\w)\}/g, (_, k) => vars[k] ?? "") : s;
+  };
+  const isDaughter = () => settings.rel === "बेटी";
+  const childWord = () => settings.rel || "बेटा";
+  const childObj = () => t(isDaughter() ? "childObjDaughter" : "childObjSon"); // बेटे/बेटी · son/daughter
+  const childLabel = () => {
+    if (L() === "en") return settings.childName || `your ${childObj()}`;
+    return settings.childName ? `${childObj()} (${settings.childName})` : childObj();
+  };
+  const voiceLang = () => (L() === "en" ? "en-IN" : "hi-IN");
 
   // ---------- state ----------
   const S = { goal: "", history: [], confused: 0, reply: null, img: null, target: null, busy: false };
@@ -367,15 +463,34 @@
     window.scrollTo(0, 0);
   }
 
-  function refreshLabels() {
-    $("hello").textContent = settings.parentName ? `नमस्ते, ${settings.parentName} जी 🙏` : "नमस्ते 🙏";
-    document.querySelectorAll("[data-goal]").forEach((b) => {
-      b.dataset.goal = b.dataset.goal.replace(/^(बेटे|बेटी) को/, `${childObj()} को`);
-    });
-    document.querySelectorAll("[data-sub]").forEach((s) => (s.textContent = s.dataset.sub.replace("{c}", childObj())));
-    $("askChildText").textContent = `${childLabel()} से पूछिए`;
-    $("scamAlertText").textContent = `${childLabel()} को अभी बताइए`;
+  function applyLanguage() {
+    document.documentElement.lang = L();
+    document.title = t("brand");
+    document.querySelectorAll("[data-i18n]").forEach((el) => (el.textContent = t(el.dataset.i18n)));
+    document.querySelectorAll("[data-i18n-ph]").forEach((el) => (el.placeholder = t(el.dataset.i18nPh)));
+    document.querySelectorAll("[data-i18n-aria]").forEach((el) => el.setAttribute("aria-label", t(el.dataset.i18nAria)));
+    document.querySelectorAll("#langBtn [data-lang]").forEach((s) => s.classList.toggle("on", s.dataset.lang === L()));
+    document.querySelectorAll("#demoGrid button").forEach((b, i) => (b.textContent = t("demos")[i]));
+    refreshLabels();
+    $("stepNum").textContent = t("stepN", { n: S.history.length + 1 });
+    if ($("stepCard").classList.contains("empty")) $("stepText").textContent = t("stepIntro");
+    renderStatus();
   }
+
+  function refreshLabels() {
+    $("hello").textContent = settings.parentName ? t("helloName", { n: settings.parentName }) : t("hello");
+    document.querySelectorAll("[data-goal-key]").forEach((b) => (b.dataset.goal = t("goal_" + b.dataset.goalKey, { c: childObj() })));
+    document.querySelectorAll("[data-sub]").forEach((s) => (s.textContent = t(s.dataset.sub, { c: childObj() })));
+    $("askChildText").textContent = t("askChild", { c: childLabel() });
+    $("scamAlertText").textContent = t("tellChild", { c: childLabel() });
+  }
+
+  $("langBtn").onclick = () => {
+    settings.lang = L() === "hi" ? "en" : "hi";
+    store.set(settings);
+    stopVoice();
+    applyLanguage();
+  };
 
   // ---------- setup ----------
   function openSetup() {
@@ -392,6 +507,7 @@
       childName: $("childName").value.trim(),
       childPhone: $("childPhone").value.replace(/\D/g, ""),
       rel: document.querySelector('input[name=rel]:checked').value,
+      lang: L(),
     };
     store.set(settings);
     refreshLabels();
@@ -413,8 +529,11 @@
   function browserSpeak(text, rate = 0.9) {
     if (!("speechSynthesis" in window)) return;
     const u = new SpeechSynthesisUtterance(text);
-    u.lang = "hi-IN"; u.rate = rate;
-    const v = speechSynthesis.getVoices().find((v) => v.lang && v.lang.toLowerCase().startsWith("hi"));
+    u.lang = voiceLang(); u.rate = rate;
+    const prefix = L() === "en" ? "en" : "hi";
+    const voices = speechSynthesis.getVoices();
+    const v = voices.find((v) => v.lang && v.lang.toLowerCase() === voiceLang().toLowerCase())
+      || voices.find((v) => v.lang && v.lang.toLowerCase().startsWith(prefix));
     if (v) u.voice = v;
     speechSynthesis.speak(u);
   }
@@ -436,7 +555,7 @@
   if ("speechSynthesis" in window) speechSynthesis.getVoices();
 
   // ---------- goals ----------
-  function setStepNum() { $("stepNum").textContent = `कदम ${S.history.length + 1}`; }
+  function setStepNum() { $("stepNum").textContent = t("stepN", { n: S.history.length + 1 }); }
 
   function startGoal(goal) {
     S.goal = goal; S.history = []; S.confused = 0; S.reply = null; S.img = null; S.target = null;
@@ -445,21 +564,21 @@
     $("askChild").classList.remove("show");
     drawStage();
     setStepNum();
-    setStep("अपने फोन की स्क्रीन की फोटो (स्क्रीनशॉट) भेजिए। हम बताएँगे कहाँ दबाना है।", true);
+    setStep(t("stepIntro"), true);
     show("guide");
-    speak("ठीक है। अब अपने फोन की स्क्रीन की फोटो भेजिए।");
+    speak(t("sayStart"));
   }
   document.querySelectorAll("[data-goal]").forEach((b) => (b.onclick = () => startGoal(b.dataset.goal)));
 
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
   $("micBtn").onclick = () => {
-    if (!SR) { $("micHint").textContent = "इस ब्राउज़र में बोलकर बताने की सुविधा नहीं है। ऊपर से चुनिए।"; return; }
+    if (!SR) { $("micHint").textContent = t("micUnsupported"); return; }
     const rec = new SR();
-    rec.lang = "hi-IN"; rec.interimResults = false; rec.maxAlternatives = 1;
-    $("micHint").textContent = "सुन रहे हैं… बोलिए";
+    rec.lang = voiceLang(); rec.interimResults = false; rec.maxAlternatives = 1;
+    $("micHint").textContent = t("micListening");
     $("micBtn").classList.add("listening");
-    rec.onresult = (e) => { const t = e.results[0][0].transcript; $("micHint").textContent = `आपने कहा: "${t}"`; startGoal(t); };
-    rec.onerror = () => { $("micHint").textContent = "आवाज़ साफ़ नहीं आई, फिर से बोलिए या ऊपर से चुनिए।"; };
+    rec.onresult = (e) => { const txt = e.results[0][0].transcript; $("micHint").textContent = t("micHeard", { t: txt }); startGoal(txt); };
+    rec.onerror = () => { $("micHint").textContent = t("micError"); };
     rec.onend = () => $("micBtn").classList.remove("listening");
     rec.start();
   };
@@ -484,9 +603,9 @@
     e.target.value = "";
     if (f) await handleShot(URL.createObjectURL(f), f.name);
   };
-  DEMOS.forEach(([file, label, scam]) => {
+  DEMO_FILES.forEach(([file, scam], i) => {
     const b = document.createElement("button");
-    b.textContent = label;
+    b.textContent = t("demos")[i];
     if (scam) b.className = "scam";
     b.onclick = () => handleShot(`demo/${file}`, file);
     $("demoGrid").appendChild(b);
@@ -499,10 +618,10 @@
     $("loader").classList.add("show");
     // Gemma 4 reads the screen carefully (often 20-40s): keep the elder informed while waiting.
     const t0 = Date.now();
-    $("loaderText").textContent = "देख रहे हैं…";
+    $("loaderText").textContent = t("loader1");
     const tick = setInterval(() => {
       const s = Math.round((Date.now() - t0) / 1000);
-      $("loaderText").textContent = s < 8 ? "देख रहे हैं…" : s < 25 ? `ध्यान से पढ़ रहे हैं… ${s} सेकंड` : `बस थोड़ा और… ${s} सेकंड`;
+      $("loaderText").textContent = s < 8 ? t("loader1") : s < 25 ? t("loader2", { s }) : t("loader3", { s });
     }, 1000);
     $("caution").classList.remove("show");
     try {
@@ -513,6 +632,7 @@
       const fd = new FormData();
       fd.append("image", blob, name || "screen.jpg");
       fd.append("goal", S.goal);
+      fd.append("lang", L());
       fd.append("history", JSON.stringify(S.history));
       fd.append("person", JSON.stringify({ parent_name: settings.parentName, child_name: settings.childName }));
       const r = await fetch("api/guide", { method: "POST", body: fd });
@@ -520,8 +640,8 @@
       handleReply(await r.json());
     } catch (err) {
       console.error(err);
-      setStep("थोड़ी दिक्कत आ गई। कृपया फिर से फोटो भेजिए।", false);
-      speak("थोड़ी दिक्कत आ गई। कृपया फिर से फोटो भेजिए।");
+      setStep(t("errorRetry"), false);
+      speak(t("errorRetry"));
     } finally {
       clearInterval(tick);
       $("loader").classList.remove("show");
@@ -565,36 +685,34 @@
     const step = S.reply ? S.reply.step_hi : "";
     if (S.confused >= 2) {
       $("askChild").classList.add("show");
-      speak(`कोई बात नहीं। नीचे हरा बटन दबाकर ${childObj()} से पूछ लीजिए।`);
+      speak(t("noProblem", { c: childObj() }));
     } else {
-      speak(step ? "धीरे से फिर सुनिए। " + step : "पहले स्क्रीन की फोटो भेजिए।", { slow: true });
+      speak(step ? t("slowAgain") + step : t("sendFirst"), { slow: true });
     }
   };
   $("askChild").onclick = () => {
-    const step = S.reply ? S.reply.step_hi : "(अभी शुरू किया)";
-    const msg = `🙏 ${settings.parentName || "मम्मी/पापा"} को फोन पर मदद चाहिए\n` +
-      `काम: ${S.goal}\nइस कदम पर अटके हैं: ${step}\nकृपया एक बार फोन कर लीजिए।\n— बेटा बोल`;
-    window.open(waLink(msg), "_blank");
+    const step = S.reply ? S.reply.step_hi : t("startedJustNow");
+    window.open(waLink(t("waHelp", { p: settings.parentName || t("parentFallback"), g: S.goal, s: step })), "_blank");
   };
   $("homeBtn").onclick = () => { stopVoice(); show("home"); };
   $("againBtn").onclick = () => { stopVoice(); show("home"); };
 
   function celebrate() {
-    $("doneTitle").textContent = settings.parentName ? `शाबाश, ${settings.parentName} जी!` : "शाबाश!";
-    $("doneText").textContent = `"${S.goal}" — हो गया!`;
+    $("doneTitle").textContent = settings.parentName ? t("doneName", { n: settings.parentName }) : t("done");
+    $("doneText").textContent = t("doneText", { g: S.goal });
     show("done");
     navigator.vibrate && navigator.vibrate([100, 60, 100]);
-    speak(childWord() === "बेटी" ? "शाबाश! आपने खुद कर लिया। आपकी बेटी बहुत खुश होगी।"
-                                 : "शाबाश! आपने खुद कर लिया। आपका बेटा बहुत खुश होगा।");
+    speak(t(isDaughter() ? "cheerDaughter" : "cheerSon"));
   }
 
   // ---------- scam kavach ----------
+  function skillLabel(name) { return t("skills")[name] || name; }
   function showScam(rep) {
     const scam = rep.scam;
     $("scamWarn").textContent = scam.warning_hi;
     $("scamReason").textContent = scam.reason_hi || "";
-    const src = { "gemma+rules": "Gemma 4 + नियम दोनों ने पकड़ा", gemma: "Gemma 4 ने पकड़ा", rules: "नियमों ने पकड़ा" }[scam.source] || "";
-    $("scamTag").textContent = `Scam Kavach · ${SKILL_LABELS[scam.skill] || scam.skill} · ${src}`;
+    const src = { "gemma+rules": t("srcBoth"), gemma: t("srcGemma"), rules: t("srcRules") }[scam.source] || "";
+    $("scamTag").textContent = `Scam Kavach · ${skillLabel(scam.skill)} · ${src}`;
     $("scam").classList.add("show");
     navigator.vibrate && navigator.vibrate([500, 200, 500, 200, 500]);
     speak(scam.warning_hi);
@@ -602,16 +720,14 @@
   $("scamRepeat").onclick = () => S.reply && speak(S.reply.scam.warning_hi);
   $("scamAlert").onclick = () => {
     const scam = S.reply.scam;
-    const msg = `⚠️ बेटा बोल अलर्ट!\n${settings.parentName || "मम्मी/पापा"} के फोन पर धोखे जैसी स्क्रीन दिखी: ${SKILL_LABELS[scam.skill] || scam.skill}.\n` +
-      `उन्हें रोक दिया गया है। कृपया अभी फोन कीजिए।\n(वे यह कर रहे थे: ${S.goal})`;
-    window.open(waLink(msg), "_blank");
+    window.open(waLink(t("waAlert", { p: settings.parentName || t("parentFallback"), k: skillLabel(scam.skill), g: S.goal })), "_blank");
   };
   $("scamClose").onclick = () => {
     stopVoice();
     $("scam").classList.remove("show");
     S.target = null; drawStage();
-    setStep("बहुत अच्छा किया जो रुक गए। वापस जाकर सही स्क्रीन की फोटो भेजिए।", false);
-    speak("बहुत अच्छा किया जो रुक गए।");
+    setStep(t("stoppedStep"), false);
+    speak(t("stopped"));
   };
 
   // ---------- canvas + pulsing red ring ----------
@@ -652,18 +768,22 @@
   window.addEventListener("resize", () => S.img && drawStage());
 
   // ---------- status bar ----------
-  fetch("api/health").then((r) => r.json()).then((h) => {
-    const voice = h.voice === "elevenlabs" ? `${childWord()} की आवाज़` : "ब्राउज़र आवाज़";
+  let health = null;
+  function renderStatus() {
+    if (!health) return;
+    const voice = health.voice === "elevenlabs" ? t("voiceChild", { c: childLabel() }) : t("voiceBrowser");
     $("status").innerHTML =
-      `<span class="s"><svg class="i"><use href="#i-cpu"/></svg><b>Gemma 4</b> ${h.model}</span><span class="sep"></span>` +
-      `<span class="s"><svg class="i"><use href="#i-shield"/></svg>${h.skills} skills</span><span class="sep"></span>` +
+      `<span class="s"><svg class="i"><use href="#i-cpu"/></svg><b>Gemma 4</b> ${health.model}</span><span class="sep"></span>` +
+      `<span class="s"><svg class="i"><use href="#i-shield"/></svg>${health.skills} skills</span><span class="sep"></span>` +
       `<span class="s"><svg class="i"><use href="#i-volume"/></svg>${voice}</span>` +
-      (h.mode !== "gemma" ? '<span class="mock">MOCK</span>' : "");
-  }).catch(() => { $("status").textContent = "सर्वर से जुड़ नहीं पाए"; });
+      (health.mode !== "gemma" ? '<span class="mock">MOCK</span>' : "");
+  }
+  fetch("api/health").then((r) => r.json()).then((h) => { health = h; renderStatus(); })
+    .catch(() => { $("status").textContent = t("serverDown"); });
 
   if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
 
-  refreshLabels();
+  applyLanguage();
   if (settings.childPhone || settings.parentName) show("home"); else openSetup();
 })();
 </script>

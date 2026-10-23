@@ -14,6 +14,8 @@ Built in one day at **MLH Hacktoberfest Hack Day Lucknow × BBDITM** (23 Oct 202
 
 ---
 
+**हिं / EN:** a language switch in the top-right corner changes the whole app (every screen, the spoken voice, voice input, Gemma's guidance and the scam warnings) between Hindi and English.
+
 ## The problem
 
 Elderly parents in India are new to smartphones. Every day they call their children: *"Beta, phone mein ye kya aa gaya? Ye button kahan hai?"* Explaining a screen over a phone call is hard.
@@ -55,7 +57,7 @@ If **either** layer flags the screen, the app warns. High severity beats caution
 ### Add a new scam (no code change)
 
 1. Create `skills/<your-scam-name>/SKILL.md`. Copy an existing skill as a template.
-2. Fill in the frontmatter (`name` must match the folder name; `license: MIT`; `metadata` with `version`, `kind: scam`, and `severity: high|caution`). Then add these sections: `## Signals`, `## Warning` (one Hindi sentence that gets spoken), `## Explanation`, and `## Example` (sample screen text).
+2. Fill in the frontmatter (`name` must match the folder name; `license: MIT`; `metadata` with `version`, `kind: scam`, and `severity: high|caution`). Then add these sections: `## Signals`, `## Warning` (one Hindi sentence that gets spoken), `## Explanation`, and `## Example` (sample screen text). Add `## Warning (English)` and `## Explanation (English)` too, for the English mode.
 3. Run `pytest`. The tests check the spec, and they check that **your rules catch your own example**.
 4. Open a pull request. 🎉
 

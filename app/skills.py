@@ -42,6 +42,17 @@ class Skill:
     def explanation_hi(self) -> str:
         return self.sections.get("explanation", "").strip()
 
+    def warning(self, lang: str = "hi") -> str:
+        """Spoken warning in the user's language (English section optional, falls back to Hindi)."""
+        if lang == "en":
+            return self.sections.get("warning (english)", "").strip() or self.warning_hi
+        return self.warning_hi
+
+    def explanation(self, lang: str = "hi") -> str:
+        if lang == "en":
+            return self.sections.get("explanation (english)", "").strip() or self.explanation_hi
+        return self.explanation_hi
+
     @property
     def example(self) -> str:
         return self.sections.get("example", "").strip()
@@ -54,6 +65,7 @@ class Skill:
             "severity": self.severity,
             "version": self.version,
             "warning_hi": self.warning_hi,
+            "warning_en": self.warning("en"),
             "signals": [" && ".join(s) for s in self.signals],
         }
 

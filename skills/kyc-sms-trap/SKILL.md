@@ -43,6 +43,14 @@ disconnected at 9:30 pm") and ask the person to click a link or call "the office
 
 यह नकली मैसेज है जो डर दिखाकर लिंक दबवाता है। असली बैंक KYC के लिए शाखा में बुलाता है, मैसेज के लिंक से नहीं।
 
+## Warning (English)
+
+Stop! Banks and electricity offices never send links like this. Do not tap the link and do not call this number.
+
+## Explanation (English)
+
+This is a fake message that scares you into tapping a link. A real bank asks you to visit the branch for KYC, not a link in an SMS.
+
 ## Example
 
 Dear customer your SBI account will be blocked today. Your KYC has expired. Click http://sbi-kyc-update.example to update KYC immediately.

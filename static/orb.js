@@ -12,7 +12,10 @@
     var host = document.getElementById("bb-orb");
     if (!host) return;
 
-    var LABELS = { idle: "तैयार हूँ", thinking: "देख रहे हैं…", speaking: "बोल रहे हैं", alert: "रुकिए! खतरा" };
+    var LABELS = {
+      hi: { idle: "तैयार हूँ", thinking: "देख रहे हैं…", speaking: "बोल रहे हैं", alert: "रुकिए! खतरा" },
+      en: { idle: "Ready", thinking: "Looking…", speaking: "Speaking", alert: "Stop! Danger" }
+    };
     var STATES = ["is-idle", "is-thinking", "is-speaking", "is-alert"];
     var playing = [];
     var flags = { synth: false, pending: 0, alert: false };
@@ -27,11 +30,12 @@
     function render() {
       try {
         var s = flags.alert ? "alert" : (playing.length || flags.synth) ? "speaking" : flags.pending > 0 ? "thinking" : "idle";
-        if (s === current) return;
-        current = s;
+        var lang = document.documentElement.lang === "en" ? "en" : "hi";
+        if (s + lang === current) return;
+        current = s + lang;
         for (var i = 0; i < STATES.length; i++) host.classList.remove(STATES[i]);
         host.classList.add("is-" + s);
-        if (label) label.textContent = LABELS[s];
+        if (label) label.textContent = LABELS[lang][s];
       } catch (e) { /* stay as is */ }
     }
 

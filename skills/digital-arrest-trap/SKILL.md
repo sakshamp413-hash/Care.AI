@@ -39,6 +39,14 @@ for hours ("you are under digital arrest") and make them transfer money to "veri
 
 "डिजिटल अरेस्ट" जैसी कोई चीज़ कानून में नहीं है। ऐसे कॉल ठगों के होते हैं। फोन काटिए और बेटे-बेटी को बताइए।
 
+## Warning (English)
+
+Stop! Police and CBI never arrest anyone on a video call, and never ask for money. Hang up now.
+
+## Explanation (English)
+
+There is no such thing as a "digital arrest" in law. These calls are from scammers. Hang up and tell your son or daughter.
+
 ## Example
 
 WhatsApp video call — CBI Officer Mumbai. Your Aadhaar is linked to money laundering case. You are under digital arrest. Do not disconnect the call.

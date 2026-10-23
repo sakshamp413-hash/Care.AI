@@ -27,6 +27,28 @@ FLOWS = {
     ],
 }
 
+FLOWS_EN = {
+    "whatsapp_photo": [
+        "Tap the green WhatsApp icon.",
+        "Tap your son's chat with his name at the top.",
+        "In the typing bar at the bottom, tap the paper-clip icon.",
+        "Tap the purple 'Gallery' circle.",
+        "Tap once on the photo you want to send.",
+        "Tap the round green arrow button at the bottom right.",
+    ],
+    "video_call": [
+        "Tap the green WhatsApp icon.",
+        "Tap your son's chat.",
+        "Tap the camera icon at the top right.",
+    ],
+    "upi_send": [
+        "Open your payments app.",
+        "Tap 'Pay contacts' or 'Send money'.",
+        "Tap the name of the person to pay.",
+        "Type the amount, then tap the blue 'Pay' button. Only you know your PIN - enter it yourself.",
+    ],
+}
+
 MOCK_SCREEN_TEXT = {
     "collect": "DemoPay Collect request from Lucky Draw. You have won ₹5,000 cashback! Enter UPI PIN to receive money.",
     "upi-scam": "DemoPay Collect request. Enter UPI PIN to receive money.",
@@ -38,7 +60,7 @@ MOCK_SCREEN_TEXT = {
 }
 
 
-def chat(text: str, lang: str) -> dict:
+def chat(text: str, lang: str = "hi") -> dict:
     reply = ("ठीक है। अपने फोन की स्क्रीन की फोटो भेजिए, मैं एक-एक कदम बताऊँगा।" if lang == "hi"
              else "Okay. Please send a screenshot of your phone screen and I'll guide you one step at a time.")
     return {"reply": reply, "scam": {"flag": False, "skill": "", "reason_hi": ""}}
@@ -48,7 +70,7 @@ def pick_flow(goal: str) -> str:
     g = (goal or "").lower()
     if "वीडियो" in g or "video" in g:
         return "video_call"
-    if "upi" in g or "पैसे" in g or "pay" in g:
+    if "upi" in g or "पैसे" in g or "pay" in g or "money" in g:
         return "upi_send"
     return "whatsapp_photo"
 
@@ -61,14 +83,16 @@ def screen_text_for(filename: str) -> str:
     return ""
 
 
-def analyze(goal: str, history: list[str], filename: str = "") -> dict:
+def analyze(goal: str, history: list[str], filename: str = "", lang: str = "hi") -> dict:
     flow = FLOWS[pick_flow(goal)]
+    if lang == "en":
+        flow = [(en, t, label) for en, (_, t, label) in zip(FLOWS_EN[pick_flow(goal)], flow)]
     i = len(history)
     if i >= len(flow):
         return {
             "screen_text": screen_text_for(filename), "app": "mock",
             "scam": {"flag": False, "skill": "", "reason_hi": ""},
-            "step_hi": "शाबाश! हो गया।", "target": None, "target_label": "",
+            "step_hi": "Well done! All finished." if lang == "en" else "शाबाश! हो गया।", "target": None, "target_label": "",
             "done": True, "confidence": 0.9,
         }
     step, target, label = flow[i]

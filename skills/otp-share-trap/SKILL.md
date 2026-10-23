@@ -30,6 +30,14 @@ So this skill does not block; it shows a yellow caution and guidance continues.
 
 OTP आपकी चाबी है। बैंक, कस्टमर केयर या पुलिस कभी OTP नहीं माँगते।
 
+## Warning (English)
+
+Careful! Never tell this OTP to anyone - especially not to someone on a phone call.
+
+## Explanation (English)
+
+Your OTP is your key. Banks, customer care and police never ask for it.
+
 ## Example
 
 482913 is your OTP for login to DemoBank. Do not share it with anyone.

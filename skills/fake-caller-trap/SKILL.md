@@ -40,6 +40,14 @@ This skill fires on what the elder tells Beta Bol: "bank wale OTP maang rahe hai
 
 असली बैंक, पुलिस या कस्टमर केयर कभी OTP, PIN या कार्ड नंबर नहीं पूछते। जो पूछे, वह ठग है।
 
+## Warning (English)
+
+Stop! Banks never ask for your OTP or PIN on a phone call. This is a scam - hang up now.
+
+## Explanation (English)
+
+Real banks, police or customer care never ask for your OTP, PIN or card number. Whoever asks is a fraudster.
+
 ## Example
 
 Bank wale ka call aaya hai, OTP maang rahe hain.

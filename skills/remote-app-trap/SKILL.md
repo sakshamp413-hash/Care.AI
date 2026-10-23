@@ -37,6 +37,14 @@ a code. The scammer then sees and controls the phone, including the banking app.
 
 कोई भी असली बैंक या कस्टमर केयर आपसे AnyDesk या TeamViewer जैसा ऐप नहीं डलवाता। इससे ठग आपकी स्क्रीन देखकर पैसे निकाल लेते हैं।
 
+## Warning (English)
+
+Stop! This app gives a stranger full control of your phone. Do not open it, and do not tell anyone the code.
+
+## Explanation (English)
+
+No real bank or customer care ever asks you to install AnyDesk or TeamViewer. Scammers use them to watch your screen and steal money.
+
 ## Example
 
 Google Play — AnyDesk Remote Desktop. Install. Your address: 123 456 789. Tell this code to the support agent.

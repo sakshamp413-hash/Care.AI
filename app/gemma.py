@@ -59,7 +59,12 @@ def _why_empty(resp) -> str:
         return "no metadata"
 
 
-def build_prompt(goal: str, history: list[str], parent_name: str, child_name: str) -> str:
+LANG_OVERRIDE = """LANGUAGE OVERRIDE: the parent chose English. Write "step_hi" and "reason_hi" in simple,
+warm, respectful English (same rules: one action, max 20 words, describe colour/shape/position).
+Keep button names exactly as printed on screen. The JSON field names stay the same."""
+
+
+def build_prompt(goal: str, history: list[str], parent_name: str, child_name: str, lang: str = "hi") -> str:
     guide = get_skill("phone-guide-hindi")
     scam_lines = []
     for s in scam_skills():
@@ -82,6 +87,7 @@ Steps already given:
 Give the ONE next step following this style guide:
 {guide.body if guide else ""}
 
+{LANG_OVERRIDE if lang == "en" else ""}
 Reply with exactly this JSON (no markdown, no extra text):
 {{
   "screen_text": "all readable text on the screen, in reading order",
@@ -99,10 +105,10 @@ Rules for "target": x and y are the CENTER of the element to tap, on a 0-1000 sc
 
 
 def analyze(image_bytes: bytes, mime: str, goal: str, history: list[str],
-            parent_name: str = "", child_name: str = "") -> dict:
+            parent_name: str = "", child_name: str = "", lang: str = "hi") -> dict:
     from google.genai import types
 
-    prompt = build_prompt(goal, history, parent_name, child_name)
+    prompt = build_prompt(goal, history, parent_name, child_name, lang)
     resp = _generate(
         [types.Part.from_bytes(data=image_bytes, mime_type=mime), prompt],
         types.GenerateContentConfig(temperature=0.2, max_output_tokens=4096),

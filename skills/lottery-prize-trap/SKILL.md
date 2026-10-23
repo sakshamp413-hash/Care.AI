@@ -38,6 +38,14 @@ Real prizes never ask you to pay first.
 
 आपने कोई लॉटरी खरीदी ही नहीं, तो इनाम कैसे? "फीस भरो, इनाम पाओ" वाले हमेशा ठग होते हैं।
 
+## Warning (English)
+
+Stop! You never have to pay to receive a lottery prize. This is a scam - do not send a single rupee.
+
+## Explanation (English)
+
+You never bought a lottery ticket, so how can you win? "Pay a fee to get your prize" is always a scam.
+
 ## Example
 
 Mujhe lottery lagi hai, 25 lakh ka inaam, fee bharne ko bol rahe hain.

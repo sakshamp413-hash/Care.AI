@@ -28,26 +28,31 @@
 <div class="app">
   <!-- SCREEN 1 — HERO -->
   <section class="screen active" id="hero" aria-labelledby="heroTitle">
+    <div class="hero-bar">
+      <button class="lang" id="langBtnHero" data-i18n-aria="langAria" aria-label="Bhasha badlein: Hindi ya English">
+        <span data-lang="hi" class="on">हिं</span><span class="slash">/</span><span data-lang="en">EN</span>
+      </button>
+    </div>
     <div class="hero-top">
       <div class="mini-orb" aria-hidden="true"></div>
       <h1 id="heroTitle">Beta Bol</h1>
-      <p class="tagline">Aapka phone, ab samjhaye aur bachaye</p>
-      <p class="lead">Ask anything about your phone in Hindi or English. Beta Bol guides you step by step — and warns you instantly if someone is trying to scam you.</p>
-      <button class="cta" id="ctaBtn">Bolke Dekhiye</button>
+      <p class="tagline" data-i18n="tagline">Aapka phone, ab samjhaye aur bachaye</p>
+      <p class="lead" data-i18n="lead">Ask anything about your phone in Hindi or English. Beta Bol guides you step by step — and warns you instantly if someone is trying to scam you.</p>
+      <button class="cta" id="ctaBtn" data-i18n="cta">Bolke Dekhiye</button>
     </div>
 
     <div class="features">
       <article class="glass feature">
         <span class="f-ic"><svg class="i"><use href="#i-steps"/></svg></span>
-        <div><h2>Step-by-step help</h2><p>Ek baar mein ek kadam. Kaunsa button, kahan — saaf bataata hai.</p></div>
+        <div><h2 data-i18n="f1t">Step-by-step help</h2><p data-i18n="f1d">Ek baar mein ek kadam. Kaunsa button, kahan — saaf bataata hai.</p></div>
       </article>
       <article class="glass feature">
         <span class="f-ic warn"><svg class="i"><use href="#i-shield"/></svg></span>
-        <div><h2>Scam Guard</h2><p>OTP, fake KYC, lottery, fake bank officer — turant rokta hai.</p></div>
+        <div><h2 data-i18n="f2t">Scam Guard</h2><p data-i18n="f2d">OTP, fake KYC, lottery, fake bank officer — turant rokta hai.</p></div>
       </article>
       <article class="glass feature">
         <span class="f-ic fam"><svg class="i"><use href="#i-family"/></svg></span>
-        <div><h2>Family alert</h2><p>Khatra dikhe to bete ya beti ko WhatsApp par turant khabar.</p></div>
+        <div><h2 data-i18n="f3t">Family alert</h2><p data-i18n="f3d">Khatra dikhe to bete ya beti ko WhatsApp par turant khabar.</p></div>
       </article>
     </div>
   </section>
@@ -55,14 +60,14 @@
   <!-- SCREEN 2 — VOICE CHAT -->
   <section class="screen" id="chat" aria-labelledby="chatTitle">
     <div class="topbar">
-      <button class="back" id="backBtn" aria-label="Wapas jaayein"><svg class="i"><use href="#i-back"/></svg></button>
-      <button class="lang" id="langBtn" aria-label="Bhasha badlein: Hindi ya English">
+      <button class="back" id="backBtn" data-i18n-aria="backAria" aria-label="Wapas jaayein"><svg class="i"><use href="#i-back"/></svg></button>
+      <button class="lang" id="langBtn" data-i18n-aria="langAria" aria-label="Bhasha badlein: Hindi ya English">
         <span data-lang="hi" class="on">हिं</span><span class="slash">/</span><span data-lang="en">EN</span>
       </button>
     </div>
 
-    <h1 class="chat-title" id="chatTitle">Beta Bol se baat kijiye</h1>
-    <p class="model-pill" id="modelPill">Model check ho raha hai…</p>
+    <h1 class="chat-title" id="chatTitle" data-i18n="chatTitle">Beta Bol se baat kijiye</h1>
+    <p class="model-pill" id="modelPill" data-i18n="pillChecking">Model check ho raha hai…</p>
 
     <div class="messages" id="messages" role="log" aria-live="polite"></div>
 
@@ -70,12 +75,12 @@
       <button class="orb-btn" id="orbBtn" aria-label="Bolne ke liye orb dabaiye">
         <canvas id="orb" width="264" height="264"></canvas>
       </button>
-      <p class="caption" id="caption" aria-live="polite">Orb dabaiye aur boliye</p>
+      <p class="caption" id="caption" aria-live="polite" data-i18n="capTap">Orb dabaiye aur boliye</p>
     </div>
 
     <div class="controls">
-      <button class="ctl pause" id="pauseBtn" aria-label="Rokiye"><svg class="i"><use href="#i-pause"/></svg></button>
-      <button class="ctl end" id="endBtn" aria-label="Baat khatam kijiye"><svg class="i"><use href="#i-x"/></svg></button>
+      <button class="ctl pause" id="pauseBtn" data-i18n-aria="pauseAria" aria-label="Rokiye"><svg class="i"><use href="#i-pause"/></svg></button>
+      <button class="ctl end" id="endBtn" data-i18n-aria="endAria" aria-label="Baat khatam kijiye"><svg class="i"><use href="#i-x"/></svg></button>
     </div>
   </section>
 

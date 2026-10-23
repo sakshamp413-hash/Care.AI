@@ -11,7 +11,7 @@ NO_SCAM = {"flag": False, "skill": "", "severity": "none", "warning_hi": "",
            "reason_hi": "", "source": "", "matched": ""}
 
 
-def judge(model_scam: dict, screen_text: str) -> dict:
+def judge(model_scam: dict, screen_text: str, lang: str = "hi") -> dict:
     model_skill = None
     if model_scam.get("flag"):
         s = get_skill(model_scam.get("skill", ""))
@@ -37,8 +37,8 @@ def judge(model_scam: dict, screen_text: str) -> dict:
         "flag": True,
         "skill": skill.name,
         "severity": skill.severity,
-        "warning_hi": skill.warning_hi,
-        "reason_hi": reason or skill.explanation_hi,
+        "warning_hi": skill.warning(lang),
+        "reason_hi": reason or skill.explanation(lang),
         "source": "+".join(sources),
         "matched": " && ".join(rule_hit[1]) if rule_hit and "rules" in sources else "",
     }

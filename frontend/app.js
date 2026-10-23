@@ -28,8 +28,67 @@
     svg.innerHTML = html;
   })();
 
+  // ---------------------------------------------------------------- language (shared with the main app)
+  const STR = {
+    hi: {
+      tagline: "Aapka phone, ab samjhaye aur bachaye",
+      lead: "Apne phone ke baare mein Hindi ya English mein kuch bhi poochhiye. Beta Bol ek-ek kadam samjhata hai — aur koi dhokha de raha ho to turant rok deta hai.",
+      cta: "Bolke Dekhiye",
+      f1t: "Ek-ek kadam madad", f1d: "Ek baar mein ek kadam. Kaunsa button, kahan — saaf bataata hai.",
+      f2t: "Scam Guard", f2d: "OTP, fake KYC, lottery, fake bank officer — turant rokta hai.",
+      f3t: "Family alert", f3d: "Khatra dikhe to bete ya beti ko WhatsApp par turant khabar.",
+      langAria: "Bhasha badlein: Hindi ya English", backAria: "Wapas jaayein", pauseAria: "Rokiye", resumeAria: "Phir shuru kijiye", endAria: "Baat khatam kijiye",
+      chatTitle: "Beta Bol se baat kijiye", pillChecking: "Model check ho raha hai…",
+      capTap: "Orb dabaiye aur boliye", capListening: "Sun raha hoon… boliye", capThinking: "Soch raha hoon…",
+      capYourTurn: "Ab aap boliye — orb dabaiye", capEnded: "Baat khatam hui. Orb dabakar phir se boliye.",
+      micDenied: "Mic ki ijaazat nahi mili. Browser mein mic allow kijiye.",
+      orbListening: "Sun raha hoon. Rokne ke liye dabaiye", orbSpeaking: "Beta Bol bol raha hai", orbIdle: "Bolne ke liye orb dabaiye",
+      you: "Aap", scamAlert: "Scam alert", sorry: "Maaf kijiye, thodi dikkat aa gayi. Phir se boliye.",
+      tellChild: "{c} ko WhatsApp par bataiye", alertSent: "{c} ko WhatsApp alert bheja gaya", sonFallback: "Bete",
+      waAlert: "⚠️ Beta Bol alert: {p} ke saath scam ki koshish ho rahi hai ({k}). Kripya abhi call kijiye.", parentFallback: "Mummy/Papa",
+      pillLive: "Gemma 4 · {m} · live", pillOffline: "Backend se connect nahi hua · demo mode", pillError: "Gemma error — {e}", pillMock: "MOCK mode — .env mein GEMINI_API_KEY daaliye",
+      demoScam: "Rukiye! Ye scam ho sakta hai. Bank ya police kabhi OTP, PIN ya paise nahi maangte. Call kaat dijiye — maine aapke bete ko bata diya hai.",
+      demoOk: "Theek hai. Apne phone ki screen ka photo bhejiye, main ek-ek kadam bataunga.",
+      demo: [
+        ["ai", "Namaste! Aaj kis cheez mein madad karun?"],
+        ["user", "Bank wale ka call aaya hai, OTP maang rahe hain."],
+        ["ai", "Rukiye! Bank kabhi OTP nahi maangta. Ye scam ho sakta hai. Call kaat dijiye — maine aapke bete ko bata diya hai.", true],
+      ],
+    },
+    en: {
+      tagline: "Your phone, now it explains and protects",
+      lead: "Ask anything about your phone in Hindi or English. Beta Bol guides you step by step — and warns you instantly if someone is trying to scam you.",
+      cta: "Try speaking",
+      f1t: "Step-by-step help", f1d: "One step at a time. Which button, and where — explained clearly.",
+      f2t: "Scam Guard", f2d: "OTP, fake KYC, lottery, fake bank officer — stopped instantly.",
+      f3t: "Family alert", f3d: "If there is danger, your son or daughter gets a WhatsApp alert right away.",
+      langAria: "Change language: Hindi or English", backAria: "Go back", pauseAria: "Pause", resumeAria: "Resume", endAria: "End conversation",
+      chatTitle: "Talk to Beta Bol", pillChecking: "Checking the model…",
+      capTap: "Tap the orb and speak", capListening: "Listening… go ahead", capThinking: "Thinking…",
+      capYourTurn: "Your turn — tap the orb", capEnded: "Conversation ended. Tap the orb to speak again.",
+      micDenied: "Microphone permission was denied. Please allow the mic in your browser.",
+      orbListening: "Listening. Tap to stop", orbSpeaking: "Beta Bol is speaking", orbIdle: "Tap the orb to speak",
+      you: "You", scamAlert: "Scam alert", sorry: "Sorry, something went wrong. Please say that again.",
+      tellChild: "Tell {c} on WhatsApp", alertSent: "WhatsApp alert sent to {c}", sonFallback: "your son",
+      waAlert: "⚠️ Beta Bol alert: someone is trying to scam {p} ({k}). Please call them now.", parentFallback: "Mum/Dad",
+      pillLive: "Gemma 4 · {m} · live", pillOffline: "Cannot reach the backend · demo mode", pillError: "Gemma error — {e}", pillMock: "MOCK mode — add GEMINI_API_KEY to .env",
+      demoScam: "Stop! This could be a scam. Banks and police never ask for your OTP, PIN or money. Hang up — I have told your son.",
+      demoOk: "Okay. Please send a screenshot of your phone screen and I will guide you one step at a time.",
+      demo: [
+        ["ai", "Namaste! What can I help you with today?"],
+        ["user", "Someone from the bank called and is asking for my OTP."],
+        ["ai", "Stop! Banks never ask for your OTP. This could be a scam. Hang up — I have told your son.", true],
+      ],
+    },
+  };
+  const readLang = () => { try { return (JSON.parse(localStorage.getItem("betabol") || "{}") || {}).lang === "en" ? "en" : "hi"; } catch { return "hi"; } };
+  const t = (key, vars = {}) => {
+    const s = STR[state.lang][key] ?? STR.hi[key] ?? key;
+    return typeof s === "string" ? s.replace(/\{(\w)\}/g, (_, k) => vars[k] ?? "") : s;
+  };
+
   // ---------------------------------------------------------------- screens
-  const state = { lang: "hi", paused: false, demoToken: 0, history: [] };
+  const state = { lang: readLang(), paused: false, demoToken: 0, history: [] };
 
   function show(id) {
     document.querySelectorAll(".screen").forEach((s) => s.classList.toggle("active", s.id === id));
@@ -47,12 +106,26 @@
     show("hero");
   });
 
-  $("langBtn").addEventListener("click", () => {
-    state.lang = state.lang === "hi" ? "en" : "hi";
-    document.querySelectorAll("#langBtn [data-lang]").forEach((s) => s.classList.toggle("on", s.dataset.lang === state.lang));
+  function applyLanguage() {
+    document.documentElement.lang = state.lang;
+    document.querySelectorAll("[data-i18n]").forEach((el) => (el.textContent = t(el.dataset.i18n)));
+    document.querySelectorAll("[data-i18n-aria]").forEach((el) => el.setAttribute("aria-label", t(el.dataset.i18nAria)));
+    document.querySelectorAll(".lang [data-lang]").forEach((s) => s.classList.toggle("on", s.dataset.lang === state.lang));
     if (recognition) recognition.lang = state.lang === "hi" ? "hi-IN" : "en-IN";
+    if (lastHealth) setModelPill(lastHealth);
+  }
+  function toggleLanguage() {
+    state.lang = state.lang === "hi" ? "en" : "hi";
+    try {  // shared with the main app's language switch
+      const s = JSON.parse(localStorage.getItem("betabol") || "{}") || {};
+      s.lang = state.lang;
+      localStorage.setItem("betabol", JSON.stringify(s));
+    } catch {}
+    applyLanguage();
     console.log("[BetaBol] language:", state.lang);
-  });
+  }
+  $("langBtn").addEventListener("click", toggleLanguage);
+  $("langBtnHero").addEventListener("click", toggleLanguage);
 
   // ---------------------------------------------------------------- messages + captions
   const SHIELD = '<svg class="i"><use href="#i-shield"/></svg>';
@@ -69,8 +142,8 @@
     el.className = `bubble ${isUser ? "user" : "ai"}${opts.warning ? " warning" : ""}`;
     const who = document.createElement("span");
     who.className = "who";
-    if (opts.warning) who.innerHTML = `${SHIELD} Scam alert`;
-    else who.textContent = isUser ? "Aap" : "Beta Bol";
+    if (opts.warning) who.innerHTML = `${SHIELD} ${t("scamAlert")}`;
+    else who.textContent = isUser ? t("you") : "Beta Bol";
     el.appendChild(who);
     el.appendChild(document.createTextNode(text));
     box.appendChild(el);
@@ -130,7 +203,7 @@
       micStream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true } });
     } catch (err) {
       console.warn("[BetaBol] mic permission denied", err);
-      setCaption("Mic ki ijaazat nahi mili. Browser mein mic allow kijiye.", true);
+      setCaption(t("micDenied"), true);
       return false;
     }
     const ac = ctx();
@@ -139,7 +212,7 @@
     micAnalyser.fftSize = 1024;
     micSource.connect(micAnalyser);
     setOrbState("listening");
-    setCaption("Sun raha hoon… boliye", true);
+    setCaption(t("capListening"), true);
     startRecognition();
     return true;
   }
@@ -187,7 +260,7 @@
     if (!["idle", "listening", "speaking"].includes(s)) return;
     orb.state = s;
     $("orbBtn").setAttribute("aria-label",
-      s === "listening" ? "Sun raha hoon. Rokne ke liye dabaiye" : s === "speaking" ? "Beta Bol bol raha hai" : "Bolne ke liye orb dabaiye");
+      t(s === "listening" ? "orbListening" : s === "speaking" ? "orbSpeaking" : "orbIdle"));
     if (reduceMotion.matches) drawOrb(performance.now());
   }
 
@@ -224,18 +297,18 @@
       await api.onUserSpeech(text, state.lang);
     } catch (err) {
       console.error("[BetaBol] onUserSpeech failed", err);
-      addMessage("ai", "Maaf kijiye, thodi dikkat aa gayi. Phir se boliye.");
+      addMessage("ai", t("sorry"));
     }
   }
 
   // ---------------------------------------------------------------- backend (FastAPI: /api/chat + /api/tts)
   const API = window.BETABOL_API ?? "";
   const family = (() => { try { return JSON.parse(localStorage.getItem("betabol") || "{}") || {}; } catch { return {}; } })();
-  const childName = family.childName || "aapke bete";
+  let lastHealth = null;
 
   async function backendResponder(text, lang) {
     let data;
-    setCaption("Soch raha hoon…", true);
+    setCaption(t("capThinking"), true);
     try {
       const r = await fetch(`${API}/api/chat`, {
         method: "POST",
@@ -272,14 +345,14 @@
     const phone = (family.childPhone || "").replace(/\D/g, "");
     if (!phone) return addSystem(`Scam Kavach: ${scam.skill}`);
     const num = phone.length === 10 ? "91" + phone : phone;
-    const msg = `⚠️ Beta Bol alert: ${family.parentName || "Mummy/Papa"} ke saath scam ki koshish ho rahi hai (${scam.skill}). Kripya abhi call kijiye.`;
+    const msg = t("waAlert", { p: family.parentName || t("parentFallback"), k: scam.skill });
     const a = document.createElement("a");
     a.className = "sys link";
     a.href = `https://wa.me/${num}?text=${encodeURIComponent(msg)}`;
     a.target = "_blank";
     a.rel = "noopener";
     a.innerHTML = '<svg class="i"><use href="#i-family"/></svg>';
-    a.appendChild(document.createTextNode(`${family.childName || "Bete"} ko WhatsApp par bataiye`));
+    a.appendChild(document.createTextNode(t("tellChild", { c: family.childName || t("sonFallback") })));
     $("messages").appendChild(a);
     scrollChat();
   }
@@ -287,21 +360,20 @@
   function setModelPill(h) {
     const pill = $("modelPill");
     if (!pill) return;
+    lastHealth = h;
     const live = h.mode === "gemma";
     pill.className = `model-pill ${live ? "live" : "off"}`;
-    pill.textContent = live ? `Gemma 4 · ${h.model} · live`
-      : h.mode === "offline" ? "Backend se connect nahi hua · demo mode"
-      : (h.mode === "mock-fallback" || h.mode === "error") ? `Gemma error — ${(h.error || h.last_error || "").slice(0, 80)}`
-      : "MOCK mode — .env mein GEMINI_API_KEY daaliye";
+    pill.textContent = live ? t("pillLive", { m: h.model })
+      : h.mode === "offline" ? t("pillOffline")
+      : (h.mode === "mock-fallback" || h.mode === "error") ? t("pillError", { e: (h.error || h.last_error || "").slice(0, 80) })
+      : t("pillMock");
   }
 
   // Local demo responder, used only when the backend can't be reached.
   const SCAM_WORDS = /\b(otp|kyc|lottery|lucky draw|prize|anydesk|teamviewer|cbi|police|arrest|pin|cashback|refund)\b|ओटीपी|लॉटरी|केवाईसी|पिन|इनाम/i;
   async function demoResponder(text) {
     const scam = SCAM_WORDS.test(text);
-    const reply = scam
-      ? "Rukiye! Ye scam ho sakta hai. Bank ya police kabhi OTP, PIN ya paise nahi maangte. Call kaat dijiye — maine aapke bete ko bata diya hai."
-      : "Theek hai. Apne phone ki screen ka photo bhejiye, main ek-ek kadam bataunga.";
+    const reply = scam ? t("demoScam") : t("demoOk");
     addMessage("ai", reply, { warning: scam });
     await speakLocal(reply);
   }
@@ -322,11 +394,6 @@
   }
 
   // ---------------------------------------------------------------- demo conversation
-  const DEMO = [
-    { role: "ai", text: "Namaste! Aaj kis cheez mein madad karun?" },
-    { role: "user", text: "Bank wale ka call aaya hai, OTP maang rahe hain." },
-    { role: "ai", warning: true, text: "Rukiye! Bank kabhi OTP nahi maangta. Ye scam ho sakta hai. Call kaat dijiye — maine aapke bete ko bata diya hai." },
-  ];
 
   async function runDemo() {
     const token = ++state.demoToken;
@@ -334,7 +401,8 @@
     setOrbState("idle");
     setCaption("");
     await sleep(500);
-    for (const m of DEMO) {
+    for (const [role, text, warning] of t("demo")) {
+      const m = { role, text, warning };
       if (token !== state.demoToken) return;
       setOrbState(m.role === "ai" ? "speaking" : "listening");
       orb.simulate = true;
@@ -347,16 +415,16 @@
       await sleep(m.warning ? 400 : 700);
     }
     if (token !== state.demoToken) return;
-    addSystem(`${family.childName || "Rahul"} ko WhatsApp alert bheja gaya`);
+    addSystem(t("alertSent", { c: family.childName || "Rahul" }));
     await sleep(900);
-    if (token === state.demoToken) setCaption("Ab aap boliye — orb dabaiye", true);
+    if (token === state.demoToken) setCaption(t("capYourTurn"), true);
   }
 
   // ---------------------------------------------------------------- controls
   $("orbBtn").addEventListener("click", async () => {
     state.demoToken++; // tapping the orb takes over from the demo
     orb.simulate = false;
-    if (micStream) { stopListening(); setCaption("Orb dabaiye aur boliye", true); }
+    if (micStream) { stopListening(); setCaption(t("capTap"), true); }
     else await startListening();
   });
 
@@ -365,7 +433,7 @@
     const btn = $("pauseBtn");
     btn.classList.toggle("paused", state.paused);
     btn.innerHTML = `<svg class="i"><use href="#i-${state.paused ? "play" : "pause"}"/></svg>`;
-    btn.setAttribute("aria-label", state.paused ? "Phir shuru kijiye" : "Rokiye");
+    btn.setAttribute("aria-label", t(state.paused ? "resumeAria" : "pauseAria"));
     if (audioCtx) state.paused ? audioCtx.suspend() : audioCtx.resume();
     if (currentAudio) state.paused ? currentAudio.pause() : currentAudio.play();
     if ("speechSynthesis" in window) state.paused ? speechSynthesis.pause() : speechSynthesis.resume();
@@ -380,7 +448,7 @@
     stopListening();
     if (state.paused) $("pauseBtn").click();
     setOrbState("idle");
-    if (withCaption) setCaption("Baat khatam hui. Orb dabakar phir se boliye.", true);
+    if (withCaption) setCaption(t("capEnded"), true);
   }
   $("endBtn").addEventListener("click", () => endSession(true));
 
@@ -516,6 +584,7 @@
     onUserSpeech: backendResponder,
   };
 
+  applyLanguage();
   fetch(`${API}/api/health`).then((r) => r.json()).then(setModelPill).catch(() => setModelPill({ mode: "offline" }));
   window.BetaBol = api;
   Object.assign(window, { startListening, stopListening, playAIAudio, setOrbState, addMessage });

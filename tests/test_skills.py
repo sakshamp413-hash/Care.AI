@@ -54,3 +54,8 @@ def test_skills_dir_has_no_stray_folders():
     for folder in SKILLS_DIR.iterdir():
         if folder.is_dir():
             assert (folder / "SKILL.md").exists(), f"{folder.name} has no SKILL.md"
+
+
+@pytest.mark.parametrize("skill", SCAMS, ids=lambda s: s.name)
+def test_scam_skill_has_english_warning(skill):
+    assert skill.warning("en") and skill.warning("en") != skill.warning_hi
