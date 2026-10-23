@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Beta Bol</title>
+<meta name="description" content="Aapka phone, ab samjhaye aur bachaye — voice phone help and scam guard for elderly parents.">
+<meta name="theme-color" content="#05080C">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<svg class="contours" id="contours" aria-hidden="true" preserveAspectRatio="xMinYMax slice"></svg>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></symbol>
+  <symbol id="i-steps" viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M10 18h4"/><circle cx="12" cy="10" r="3"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M12 8v4M12 16h.01"/></symbol>
+  <symbol id="i-family" viewBox="0 0 24 24"><circle cx="9" cy="7" r="3"/><path d="M3 21v-1a6 6 0 0 1 12 0v1"/><circle cx="17" cy="9" r="2.5"/><path d="M16 21v-.5a4.5 4.5 0 0 1 5-4.4"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><path d="M9 5v14M15 5v14"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4l13 8-13 8z"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></symbol>
+</svg>
+
+<div class="app">
+  <!-- SCREEN 1 — HERO -->
+  <section class="screen active" id="hero" aria-labelledby="heroTitle">
+    <div class="hero-top">
+      <div class="mini-orb" aria-hidden="true"></div>
+      <h1 id="heroTitle">Beta Bol</h1>
+      <p class="tagline">Aapka phone, ab samjhaye aur bachaye</p>
+      <p class="lead">Ask anything about your phone in Hindi or English. Beta Bol guides you step by step — and warns you instantly if someone is trying to scam you.</p>
+      <button class="cta" id="ctaBtn">Bolke Dekhiye</button>
+    </div>
+
+    <div class="features">
+      <article class="glass feature">
+        <span class="f-ic"><svg class="i"><use href="#i-steps"/></svg></span>
+        <div><h2>Step-by-step help</h2><p>Ek baar mein ek kadam. Kaunsa button, kahan — saaf bataata hai.</p></div>
+      </article>
+      <article class="glass feature">
+        <span class="f-ic warn"><svg class="i"><use href="#i-shield"/></svg></span>
+        <div><h2>Scam Guard</h2><p>OTP, fake KYC, lottery, fake bank officer — turant rokta hai.</p></div>
+      </article>
+      <article class="glass feature">
+        <span class="f-ic fam"><svg class="i"><use href="#i-family"/></svg></span>
+        <div><h2>Family alert</h2><p>Khatra dikhe to bete ya beti ko WhatsApp par turant khabar.</p></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- SCREEN 2 — VOICE CHAT -->
+  <section class="screen" id="chat" aria-labelledby="chatTitle">
+    <div class="topbar">
+      <button class="back" id="backBtn" aria-label="Wapas jaayein"><svg class="i"><use href="#i-back"/></svg></button>
+      <button class="lang" id="langBtn" aria-label="Bhasha badlein: Hindi ya English">
+        <span data-lang="hi" class="on">हिं</span><span class="slash">/</span><span data-lang="en">EN</span>
+      </button>
+    </div>
+
+    <h1 class="chat-title" id="chatTitle">Beta Bol se baat kijiye</h1>
+
+    <div class="messages" id="messages" role="log" aria-live="polite"></div>
+
+    <div class="orb-wrap">
+      <button class="orb-btn" id="orbBtn" aria-label="Bolne ke liye orb dabaiye">
+        <canvas id="orb" width="264" height="264"></canvas>
+      </button>
+      <p class="caption" id="caption" aria-live="polite">Orb dabaiye aur boliye</p>
+    </div>
+
+    <div class="controls">
+      <button class="ctl pause" id="pauseBtn" aria-label="Rokiye"><svg class="i"><use href="#i-pause"/></svg></button>
+      <button class="ctl end" id="endBtn" aria-label="Baat khatam kijiye"><svg class="i"><use href="#i-x"/></svg></button>
+    </div>
+  </section>
+
+  <footer class="footer">Built at Hacktoberfest Hack Day Lucknow · Powered by Gemma 4 + ElevenLabs · MIT License</footer>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
