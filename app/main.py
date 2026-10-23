@@ -25,7 +25,7 @@ VOICE_DIR = ROOT / "frontend"
 ENV_FILE = ROOT / ".env"
 MAX_IMAGE_BYTES = 8 * 1024 * 1024
 
-app = FastAPI(title="Beta Bol", version="1.0")
+app = FastAPI(title="Care.AI", version="1.0")
 
 # Honest answers when Gemma fails with a real key (mock steps are only for keyless demo mode).
 GUIDE_RETRY = {

@@ -32,20 +32,20 @@
   const STR = {
     hi: {
       tagline: "Aapka phone, ab samjhaye aur bachaye",
-      lead: "Apne phone ke baare mein Hindi ya English mein kuch bhi poochhiye. Beta Bol ek-ek kadam samjhata hai — aur koi dhokha de raha ho to turant rok deta hai.",
+      lead: "Apne phone ke baare mein Hindi ya English mein kuch bhi poochhiye. Care.AI ek-ek kadam samjhata hai — aur koi dhokha de raha ho to turant rok deta hai.",
       cta: "Bolke Dekhiye",
       f1t: "Ek-ek kadam madad", f1d: "Ek baar mein ek kadam. Kaunsa button, kahan — saaf bataata hai.",
       f2t: "Scam Guard", f2d: "OTP, fake KYC, lottery, fake bank officer — turant rokta hai.",
       f3t: "Family alert", f3d: "Khatra dikhe to bete ya beti ko WhatsApp par turant khabar.",
       langAria: "Bhasha badlein: Hindi ya English", backAria: "Wapas jaayein", pauseAria: "Rokiye", resumeAria: "Phir shuru kijiye", endAria: "Baat khatam kijiye",
-      chatTitle: "Beta Bol se baat kijiye", pillChecking: "Model check ho raha hai…",
+      chatTitle: "Care.AI se baat kijiye", pillChecking: "Model check ho raha hai…",
       capTap: "Orb dabaiye aur boliye", capListening: "Sun raha hoon… boliye", capThinking: "Soch raha hoon…",
       capYourTurn: "Ab aap boliye — orb dabaiye", capEnded: "Baat khatam hui. Orb dabakar phir se boliye.",
       micDenied: "Mic ki ijaazat nahi mili. Browser mein mic allow kijiye.",
-      orbListening: "Sun raha hoon. Rokne ke liye dabaiye", orbSpeaking: "Beta Bol bol raha hai", orbIdle: "Bolne ke liye orb dabaiye",
+      orbListening: "Sun raha hoon. Rokne ke liye dabaiye", orbSpeaking: "Care.AI bol raha hai", orbIdle: "Bolne ke liye orb dabaiye",
       you: "Aap", scamAlert: "Scam alert", sorry: "Maaf kijiye, thodi dikkat aa gayi. Phir se boliye.",
       tellChild: "{c} ko WhatsApp par bataiye", alertSent: "{c} ko WhatsApp alert bheja gaya", sonFallback: "Bete",
-      waAlert: "⚠️ Beta Bol alert: {p} ke saath scam ki koshish ho rahi hai ({k}). Kripya abhi call kijiye.", parentFallback: "Mummy/Papa",
+      waAlert: "⚠️ Care.AI alert: {p} ke saath scam ki koshish ho rahi hai ({k}). Kripya abhi call kijiye.", parentFallback: "Mummy/Papa",
       pillLive: "Gemma 4 · {m} · live", pillOffline: "Backend se connect nahi hua · demo mode", pillError: "Gemma error — {e}", pillMock: "MOCK mode — .env mein GEMINI_API_KEY daaliye",
       demoScam: "Rukiye! Ye scam ho sakta hai. Bank ya police kabhi OTP, PIN ya paise nahi maangte. Call kaat dijiye — maine aapke bete ko bata diya hai.",
       demoOk: "Theek hai. Apne phone ki screen ka photo bhejiye, main ek-ek kadam bataunga.",
@@ -57,20 +57,20 @@
     },
     en: {
       tagline: "Your phone, now it explains and protects",
-      lead: "Ask anything about your phone in Hindi or English. Beta Bol guides you step by step — and warns you instantly if someone is trying to scam you.",
+      lead: "Ask anything about your phone in Hindi or English. Care.AI guides you step by step — and warns you instantly if someone is trying to scam you.",
       cta: "Try speaking",
       f1t: "Step-by-step help", f1d: "One step at a time. Which button, and where — explained clearly.",
       f2t: "Scam Guard", f2d: "OTP, fake KYC, lottery, fake bank officer — stopped instantly.",
       f3t: "Family alert", f3d: "If there is danger, your son or daughter gets a WhatsApp alert right away.",
       langAria: "Change language: Hindi or English", backAria: "Go back", pauseAria: "Pause", resumeAria: "Resume", endAria: "End conversation",
-      chatTitle: "Talk to Beta Bol", pillChecking: "Checking the model…",
+      chatTitle: "Talk to Care.AI", pillChecking: "Checking the model…",
       capTap: "Tap the orb and speak", capListening: "Listening… go ahead", capThinking: "Thinking…",
       capYourTurn: "Your turn — tap the orb", capEnded: "Conversation ended. Tap the orb to speak again.",
       micDenied: "Microphone permission was denied. Please allow the mic in your browser.",
-      orbListening: "Listening. Tap to stop", orbSpeaking: "Beta Bol is speaking", orbIdle: "Tap the orb to speak",
+      orbListening: "Listening. Tap to stop", orbSpeaking: "Care.AI is speaking", orbIdle: "Tap the orb to speak",
       you: "You", scamAlert: "Scam alert", sorry: "Sorry, something went wrong. Please say that again.",
       tellChild: "Tell {c} on WhatsApp", alertSent: "WhatsApp alert sent to {c}", sonFallback: "your son",
-      waAlert: "⚠️ Beta Bol alert: someone is trying to scam {p} ({k}). Please call them now.", parentFallback: "Mum/Dad",
+      waAlert: "⚠️ Care.AI alert: someone is trying to scam {p} ({k}). Please call them now.", parentFallback: "Mum/Dad",
       pillLive: "Gemma 4 · {m} · live", pillOffline: "Cannot reach the backend · demo mode", pillError: "Gemma error — {e}", pillMock: "MOCK mode — add GEMINI_API_KEY to .env",
       demoScam: "Stop! This could be a scam. Banks and police never ask for your OTP, PIN or money. Hang up — I have told your son.",
       demoOk: "Okay. Please send a screenshot of your phone screen and I will guide you one step at a time.",
@@ -143,7 +143,7 @@
     const who = document.createElement("span");
     who.className = "who";
     if (opts.warning) who.innerHTML = `${SHIELD} ${t("scamAlert")}`;
-    else who.textContent = isUser ? t("you") : "Beta Bol";
+    else who.textContent = isUser ? t("you") : "Care.AI";
     el.appendChild(who);
     el.appendChild(document.createTextNode(text));
     box.appendChild(el);

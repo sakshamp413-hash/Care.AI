@@ -64,7 +64,7 @@ def test_tts_falls_back_to_browser():
 
 def test_frontend_served():
     r = client.get("/")
-    assert r.status_code == 200 and "बेटा बोल" in r.text
+    assert r.status_code == 200 and "Care.AI" in r.text
 
 
 def chat(text, lang="hi"):
@@ -88,7 +88,7 @@ def test_chat_rejects_empty_text():
 
 def test_voice_ui_served():
     r = client.get("/voice/")
-    assert r.status_code == 200 and "Beta Bol se baat kijiye" in r.text
+    assert r.status_code == 200 and "Care.AI se baat kijiye" in r.text
 
 
 def _boom(*a, **k):

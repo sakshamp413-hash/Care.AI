@@ -72,7 +72,7 @@ def build_prompt(goal: str, history: list[str], parent_name: str, child_name: st
         scam_lines.append(f'- "{s.name}" ({s.severity}): {s.description} Typical text: {signals}')
     done_steps = "\n".join(f"{i + 1}. {h}" for i, h in enumerate(history)) or "(none yet - this is the first screenshot)"
 
-    return f"""You are "Beta Bol", a phone guardian for an elderly Indian parent.
+    return f"""You are "Care.AI", a phone guardian for an elderly Indian parent.
 The image is a screenshot of the parent's phone. Do two jobs and reply with ONE JSON object only.
 
 JOB 1 - SCAM KAVACH (always first). Check the screenshot against these scam skills:
@@ -127,10 +127,10 @@ def analyze(image_bytes: bytes, mime: str, goal: str, history: list[str],
 
 def build_chat_prompt(text: str, lang: str, history: list[dict], parent_name: str, child_name: str) -> str:
     scam_lines = "\n".join(f'- "{s.name}" ({s.severity}): {s.description}' for s in scam_skills())
-    turns = "\n".join(f'{"Parent" if h.get("role") == "user" else "Beta Bol"}: {h.get("text", "")}'
+    turns = "\n".join(f'{"Parent" if h.get("role") == "user" else "Care.AI"}: {h.get("text", "")}'
                       for h in history[-8:]) or "(start of conversation)"
     language = ("simple spoken Hindi in Devanagari script" if lang == "hi" else "simple, warm English")
-    return f"""You are "Beta Bol", a patient son/daughter-like voice assistant helping an elderly Indian parent
+    return f"""You are "Care.AI", a patient son/daughter-like voice assistant helping an elderly Indian parent
 with their smartphone, and protecting them from scams.
 Parent: {parent_name or "माँ/पापा"}. Child: {child_name or "बेटा"}.
 
@@ -149,7 +149,7 @@ Rules:
 - For phone help, give only the ONE next step. If they need on-screen help, ask them to send a screenshot.
 
 Reply with exactly this JSON (no markdown):
-{{"reply": "<what Beta Bol says>", "scam": {{"flag": false, "skill": "<scam skill name or empty>", "reason_hi": "<short Hindi reason or empty>"}}}}"""
+{{"reply": "<what Care.AI says>", "scam": {{"flag": false, "skill": "<scam skill name or empty>", "reason_hi": "<short Hindi reason or empty>"}}}}"""
 
 
 def chat(text: str, lang: str, history: list[dict], parent_name: str = "", child_name: str = "") -> dict:

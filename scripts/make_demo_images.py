@@ -13,7 +13,7 @@ STATUS = ('<rect width="360" height="28" fill="#000" opacity=".85"/>'
           '<text x="14" y="19" fill="#fff" font-size="13">10:42</text>'
           '<text x="296" y="19" fill="#fff" font-size="13">4G 78%</text>')
 FOOT = ('<text x="180" y="772" text-anchor="middle" font-size="9" fill="#888">'
-        'DEMO SCREENSHOT · काल्पनिक · Beta Bol</text></svg>')
+        'DEMO SCREENSHOT · काल्पनिक · Care.AI</text></svg>')
 
 SCREENS = {}
 
